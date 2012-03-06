@@ -1,0 +1,48 @@
+name: OKB3
+author: Kalman Olah
+main: me.kalmanolah.okb3.OKmain
+version: 3.4.1
+database: false
+description: >
+             A forum bridge plugin for Bukkit.
+commands:
+  bbb:
+    description: Bulletin Board Bridge help menu.
+    usage: |
+           Usage: /<command>
+  sync:
+    description: Bulletin Board Bridge sync command.
+    usage: |
+           Usage: /<command>
+  resync:
+    description: Bulletin Board Bridge resync command.
+    usage: |
+           Usage: /<command>
+  fsync:
+    description: Bulletin Board Bridge moderation command.
+    usage: |
+           Usage: /<command>
+  fsyncall:
+    description: Bulletin Board Bridge moderation command.
+    usage: |
+           Usage: /<command>
+  fban:
+    description: Bulletin Board Bridge moderation command.
+    usage: |
+           Usage: /<command>
+  funban:
+    description: Bulletin Board Bridge moderation command.
+    usage: |
+           Usage: /<command>
+  fpromote:
+    description: Bulletin Board Bridge promotion command.
+    usage: |
+           Usage: /<command>
+  fdemote:
+    description: Bulletin Board Bridge demotion command.
+    usage: |
+           Usage: /<command>
+  frank:
+    description: Bulletin Board Bridge forum rank changing command.
+    usage: |
+           Usage: /<command>
