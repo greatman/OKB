@@ -93,7 +93,9 @@ public class OKmain extends JavaPlugin {
 			groupname = worldgroups.get(group);
 		}
 		if (groupname != null) {
+			perms.playerRemoveGroup(getServer().getPlayer(player), "*");
 			perms.playerAddGroup(getServer().getPlayer(player), groupname);
+			
 		}
 	}
 
