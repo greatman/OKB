@@ -140,7 +140,7 @@ public class BaseCommand
 	{
 		sender.sendMessage(ChatColor.GREEN + "[" + ChatColor.YELLOW + "OKB3" + ChatColor.GREEN + "] " + message);
 	}
-	
+	     
 	public String colorizeText(String text, ChatColor color) {
 		return color + text + ChatColor.WHITE;
 	}

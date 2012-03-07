@@ -1,7 +1,9 @@
 name: OKB3
-author: Kalman Olah
+author:
+    - Kalman Olah
+    - greatman321
 main: me.kalmanolah.okb3.OKmain
-version: 3.4.1
+version: 3.5.0
 database: false
 description: >
              A forum bridge plugin for Bukkit.
