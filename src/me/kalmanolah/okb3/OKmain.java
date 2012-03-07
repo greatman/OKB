@@ -1,10 +1,12 @@
 package me.kalmanolah.okb3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import me.kalmanolah.okb3.commands.*;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.command.Command;
@@ -19,12 +21,13 @@ public class OKmain extends JavaPlugin {
 	public static String name;
 	public static String version;
 	public static List<String> authors;
+	public List<BaseCommand> commands = new ArrayList<BaseCommand>();
 	private final OKPlayerListener playerListener = new OKPlayerListener(this);
-	private final OKCommandManager commandManager = new OKCommandManager(this);
 	public static List<Player> kicks = new ArrayList<Player>();
 	public static List<Player> portals = new ArrayList<Player>();
 	public static HashMap<Player, String> cachedjoinmsgs = new HashMap<Player, String>();
 	public static Permission perms;
+	public static OKmain p;
 	
 	private boolean setupPermissions() {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
@@ -35,6 +38,7 @@ public class OKmain extends JavaPlugin {
 		name = getDescription().getName();
 		version = getDescription().getVersion();
 		authors = getDescription().getAuthors();
+		p = this;
 		OKLogger.initialize(Logger.getLogger("Minecraft"));
 		OKLogger.info("Attempting to enable " + name + " v" + version + " by " + authors.get(0) + "...");
 		PluginManager pm = getServer().getPluginManager();
@@ -53,26 +57,33 @@ public class OKmain extends JavaPlugin {
 	}
 
 	private void setupCommands() {
-	    CommandExecutor cmd = new OKCmd(this);
-		addCommand("bbb", cmd);
-		addCommand("sync", cmd);
-		addCommand("resync", cmd);
-		addCommand("fsync", cmd);
-		addCommand("fsyncall", cmd);
-		addCommand("fban", cmd);
-		addCommand("funban", cmd);
-		addCommand("fpromote", cmd);
-		addCommand("fdemote", cmd);
-		addCommand("frank", cmd);
+	    commands.add(new BbbCommand());
+	    commands.add(new BbbVersionCommand());
+	    commands.add(new SyncCommand());
+	    commands.add(new ResyncCommand());
+	    commands.add(new FsyncCommand());
+	    commands.add(new FsyncAllCommand());
+	    commands.add(new FBanCommand());
+	    commands.add(new FUnbanCommand());
+	    commands.add(new FPromoteCommand());
+	    commands.add(new FDemoteCommand());
+	    commands.add(new FRankCommand());
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		return commandManager.dispatch(sender, cmd, label, args);
-	}
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+	{
+		List<String> parameters = new ArrayList<String>(Arrays.asList(args));
+		String commandName = cmd.getName();
+		for (BaseCommand OKBCommand : this.commands)
+		{
+			if (OKBCommand.getCommands().contains(commandName))
+			{
+				OKBCommand.execute(sender, parameters);
+				return true;
+			}
+		}
+		return false;
 
-	private void addCommand(String command, CommandExecutor executor) {
-		getCommand(command).setExecutor(executor);
-		commandManager.addCommand(command, executor);
 	}
 
 	@SuppressWarnings("unchecked")
