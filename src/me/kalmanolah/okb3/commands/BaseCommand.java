@@ -90,7 +90,7 @@ public class BaseCommand
 		String ret = "";
 
 		ret += ChatColor.AQUA;
-		ret += baseCommand + " ";
+		ret += "/";
 		ret += TextUtil.implode(this.getCommands(), ",") + " ";
 
 		List<String> parts = new ArrayList<String>();
