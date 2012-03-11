@@ -3,7 +3,7 @@ author:
     - Kalman Olah
     - greatman321
 main: me.kalmanolah.okb3.OKmain
-version: 3.5.0
+version: 3.5.1
 database: false
 description: >
              A forum bridge plugin for Bukkit.
