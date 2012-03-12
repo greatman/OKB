@@ -1,11 +1,13 @@
 package me.kalmanolah.okb3;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import me.kalmanolah.extras.Metrics;
 import me.kalmanolah.okb3.commands.*;
 import net.milkbowl.vault.permission.Permission;
 
@@ -38,6 +40,7 @@ public class OKmain extends JavaPlugin {
 		version = getDescription().getVersion();
 		authors = getDescription().getAuthors();
 		p = this;
+		
 		OKLogger.initialize(Logger.getLogger("Minecraft"));
 		OKLogger.info("Attempting to enable " + name + " v" + version + " by " + authors.get(0) + "...");
 		PluginManager pm = getServer().getPluginManager();
@@ -51,6 +54,12 @@ public class OKmain extends JavaPlugin {
 			new OKFunctions(this);
 			pm.registerEvents(playerListener, this);
 			setupCommands();
+			try {
+				Metrics metrics = new Metrics(this);
+				metrics.start();
+			} catch (IOException e) {
+				OKLogger.info("An error occured while activating Plugin stats");
+			}
 			OKLogger.info(name + " v" + version + " enabled successfully.");
 		}
 	}
