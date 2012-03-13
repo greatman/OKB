@@ -24,8 +24,10 @@ public class SyncCommand extends BaseCommand
 			} else {
 				OKFunctions.updateSecure(sender, player, player.getName(), this.parameters.get(0), this.parameters.get(1), false);
 			}
-		} else if (((Integer) OKFunctions.getConfig("mode") == 0) && (this.parameters.size() == 0)) {
-				OKFunctions.updateNormal(sender, player, player.getName(), false);
+        }
+        else if (((Integer) OKFunctions.getConfig("mode") == 0) && (this.parameters.size() == 0))
+        {
+            OKFunctions.updateNormal(sender, player, player.getName(), false);
 		} else {
 			sendMessage(this.getUseageTemplate(false));
 		}

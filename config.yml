@@ -1,0 +1,83 @@
+general:
+  mode: secure
+  enable-whitelist: 'false'
+  enable-nickname-syncing: 'false'
+  enable-synced-banning: 'false'
+  enable-promotion-track: 'false'
+  enable-rank-changing: 'false'
+  enable-post-count-rewarding: 'false'
+modes:
+  normal:
+    user-table: user_table
+    minecraft-login-name-field: minecraft_name
+    rank-id-field: rank_group_field
+    multitable:
+      enable-multiple-tables: 'false'
+      second-table: second_table
+      user-id-field-in-user-table: user_id_field_user_table
+      user-id-field-in-second-table: user_id_field_second_table
+  secure:
+    forum: phpbb
+    type1:
+      user-table: user_table
+      username-field: username_field
+      password-field: password_field
+      rank-id-field: rank_group_field
+    type2:
+      user-table: user_table
+      username-field: username_field
+      password-field: password_field
+      rank-id-field: rank_group_field
+      location-of-passgen-php: http://yoursite.com/passgen.php
+      password-set-in-config-inc-php: 12345pass
+    type3:
+      user-table: user_table
+      rank-id-field: rank_group_field
+      username-field: username_field
+      password-field: password_field
+      second-table: second_table
+      user-id-field-in-user-table: user_id_field_user_table
+      user-id-field-in-second-table: user_id_field_second_table
+    type4:
+      user-table: user_table
+      username-field: username_field
+      password-field: password-field
+      rank-id-field: rank_group_field
+      location-of-passgen-php: http://yoursite.com/passgen.php
+      password-set-in-config-inc-php: 12345pass
+mysql-connection:
+  mysql-host: localhost
+  mysql-user: root
+  mysql-password: password
+  mysql-database-name: database
+  mysql-port: '3306'
+group-mapping:
+  default:
+    '1': ExampleGroup1
+    '2': ExampleGroup2
+  worlds:
+    exampleworld1:
+      '1': ExampleGroup1
+      '2': ExampleGroup2
+extras:
+  whitelist:
+    kick-message: This is the message a user will see if their group isn't whitelisted.
+    use-as-blacklist: 'false'
+    groups:
+      '1': 'true'
+      '2': 'false'
+  nickname-syncing:
+    nickname-field-in-usertable: nickname_field_user_table
+  synced-banning:
+    banned-user-forum-rank-id: '0'
+    unbanned-user-forum-rank-id: '10'
+    ban-message: This is the message a user will see if they are banned.
+  promotion-track:
+    track: 6|4|68|123|10
+  rank-changing:
+    identifiers:
+      '1': NickNameforRank1
+      '7': NickNameforAnotherRank
+  post-count-rewarding:
+    post-count-field-in-user-table: post-count-field-user-table
+    currency-reward-per-post: '40'

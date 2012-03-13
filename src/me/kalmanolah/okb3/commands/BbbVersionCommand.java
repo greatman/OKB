@@ -7,16 +7,16 @@ import org.bukkit.ChatColor;
 public class BbbVersionCommand extends BaseCommand
 {
 
-	public BbbVersionCommand()
-	{
-		this.command.add("bbbversion");
-		this.helpDescription = "Show the version of OKB";
-	}
-	
-	public void perform()
-	{
-		sendMessage(colorizeText("--Bulletin Board Bridge by " + OKmain.authors.get(0) + " and " + OKmain.authors.get(1) + "--", ChatColor.AQUA));
-		sendMessage("This server is using " + colorizeText(OKmain.name, ChatColor.GREEN) + " version " + colorizeText(OKmain.version, ChatColor.GREEN) + ".");
-	
-	}
+    public BbbVersionCommand()
+    {
+        this.command.add("bbbversion");
+        this.helpDescription = "Show the version of OKB";
+    }
+
+    public void perform()
+    {
+        sendMessage(colorizeText("--Bulletin Board Bridge by " + OKmain.authors.get(0) + " and " + OKmain.authors.get(1) + "--", ChatColor.AQUA));
+        sendMessage("This server is using " + colorizeText(OKmain.name, ChatColor.GREEN) + " version " + colorizeText(OKmain.version, ChatColor.GREEN) + ".");
+
+    }
 }

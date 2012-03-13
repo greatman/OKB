@@ -35,7 +35,7 @@ public class FPromoteCommand extends BaseCommand
 			rank = OKFunctions.getRankNormal(name);
 		} else {
 			ResultSet test = null;
-			test = OKDB.dbm.query("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+            test = OKDB.dbm.query("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 			try {
 				if (test.next()) {
 					do {
