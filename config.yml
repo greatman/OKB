@@ -1,50 +1,13 @@
 general:
-  mode: secure
   enable-whitelist: 'false'
   enable-nickname-syncing: 'false'
   enable-synced-banning: 'false'
   enable-promotion-track: 'false'
   enable-rank-changing: 'false'
   enable-post-count-rewarding: 'false'
-modes:
-  normal:
-    user-table: user_table
-    minecraft-login-name-field: minecraft_name
-    rank-id-field: rank_group_field
-    multitable:
-      enable-multiple-tables: 'false'
-      second-table: second_table
-      user-id-field-in-user-table: user_id_field_user_table
-      user-id-field-in-second-table: user_id_field_second_table
-  secure:
-    forum: phpbb
-    type1:
-      user-table: user_table
-      username-field: username_field
-      password-field: password_field
-      rank-id-field: rank_group_field
-    type2:
-      user-table: user_table
-      username-field: username_field
-      password-field: password_field
-      rank-id-field: rank_group_field
-      location-of-passgen-php: http://yoursite.com/passgen.php
-      password-set-in-config-inc-php: 12345pass
-    type3:
-      user-table: user_table
-      rank-id-field: rank_group_field
-      username-field: username_field
-      password-field: password_field
-      second-table: second_table
-      user-id-field-in-user-table: user_id_field_user_table
-      user-id-field-in-second-table: user_id_field_second_table
-    type4:
-      user-table: user_table
-      username-field: username_field
-      password-field: password-field
-      rank-id-field: rank_group_field
-      location-of-passgen-php: http://yoursite.com/passgen.php
-      password-set-in-config-inc-php: 12345pass
+configuration:
+  forum: phpbb
+  prefix: myforum_
 mysql-connection:
   mysql-host: localhost
   mysql-user: root

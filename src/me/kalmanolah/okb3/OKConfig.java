@@ -13,7 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class OKConfig
 {
-    static HashMap<String, Object> config = new HashMap<String, Object>();
+    public static HashMap<String, Object> config = new HashMap<String, Object>();
     static String directory = "plugins" + File.separator + OKmain.name;
     static File file = new File(directory + File.separator + "config.yml");
 
@@ -44,78 +44,7 @@ public class OKConfig
         config.put("mysql.pass", plugin.getConfig().getString("mysql-connection.mysql-password"));
         config.put("mysql.db", plugin.getConfig().getString("mysql-connection.mysql-database-name"));
         config.put("mysql.port", plugin.getConfig().getInt("mysql-connection.mysql-port"));
-        if ((Integer) config.get("mode") == 1)
-        {
-            config.put("secure.forum", plugin.getConfig().getString("modes.secure.forum"));
-            if (((String) config.get("secure.forum")).equalsIgnoreCase("smf") || ((String) config.get("secure.forum")).equalsIgnoreCase("vbulletin")
-                    || ((String) config.get("secure.forum")).equalsIgnoreCase("mybb") || ((String) config.get("secure.forum")).equalsIgnoreCase("ipb")
-                    || ((String) config.get("secure.forum")).equalsIgnoreCase("wbb"))
-            {
-                config.put("enctype", 1);
-            }
-            else if (((String) config.get("secure.forum")).equalsIgnoreCase("bbpress") || ((String) config.get("secure.forum")).equalsIgnoreCase("phpbb")
-                    || ((String) config.get("secure.forum")).equalsIgnoreCase("vanilla"))
-            {
-                config.put("enctype", 2);
-            }
-            else if (((String) config.get("secure.forum")).equalsIgnoreCase("xenforo") || ((String) config.get("secure.forum")).equalsIgnoreCase("kunena"))
-            {
-                config.put("enctype", 3);
-            }
-            else if (((String) config.get("secure.forum")).equalsIgnoreCase("custom"))
-            {
-                config.put("enctype", 4);
-            }
-            if ((Integer) config.get("enctype") == 1)
-            {
-                config.put("modes.table1", plugin.getConfig().getString("modes.secure.type1.user-table"));
-                config.put("modes.field1", plugin.getConfig().getString("modes.secure.type1.username-field"));
-                config.put("modes.field2", plugin.getConfig().getString("modes.secure.type1.password-field"));
-                config.put("modes.field3", plugin.getConfig().getString("modes.secure.type1.rank-id-field"));
-            }
-            else if ((Integer) config.get("enctype") == 2)
-            {
-                config.put("modes.table1", plugin.getConfig().getString("modes.secure.type2.user-table"));
-                config.put("modes.field1", plugin.getConfig().getString("modes.secure.type2.username-field"));
-                config.put("modes.field2", plugin.getConfig().getString("modes.secure.type2.password-field"));
-                config.put("modes.field3", plugin.getConfig().getString("modes.secure.type2.rank-id-field"));
-                config.put("modes.phploc", plugin.getConfig().getString("modes.secure.type2.location-of-passgen-php"));
-                config.put("modes.phppass", plugin.getConfig().getString("modes.secure.type2.password-set-in-config-inc-php"));
-            }
-            else if ((Integer) config.get("enctype") == 3)
-            {
-                config.put("modes.table1", plugin.getConfig().getString("modes.secure.type3.user-table"));
-                config.put("modes.table2", plugin.getConfig().getString("modes.secure.type3.second-table"));
-                config.put("modes.field1", plugin.getConfig().getString("modes.secure.type3.username-field"));
-                config.put("modes.field2", plugin.getConfig().getString("modes.secure.type3.password-field"));
-                config.put("modes.field3", plugin.getConfig().getString("modes.secure.type3.rank-id-field"));
-                config.put("modes.field4", plugin.getConfig().getString("modes.secure.type3.user-id-field-in-user-table"));
-                config.put("modes.field5", plugin.getConfig().getString("modes.secure.type3.user-id-field-in-second-table"));
-            }
-            else if ((Integer) config.get("enctype") == 4)
-            {
-                config.put("modes.table1", plugin.getConfig().getString("modes.secure.type4.user-table"));
-                config.put("modes.field1", plugin.getConfig().getString("modes.secure.type4.username-field"));
-                config.put("modes.field2", plugin.getConfig().getString("modes.secure.type4.password-field"));
-                config.put("modes.field3", plugin.getConfig().getString("modes.secure.type4.rank-id-field"));
-                config.put("modes.phploc", plugin.getConfig().getString("modes.secure.type4.location-of-passgen-php"));
-                config.put("modes.phppass", plugin.getConfig().getString("modes.secure.type4.password-set-in-config-inc-php"));
-            }
-            config.put("modes.multitable", false);
-        }
-        else
-        {
-            config.put("modes.table1", plugin.getConfig().getString("modes.normal.user-table"));
-            config.put("modes.field1", plugin.getConfig().getString("modes.normal.minecraft-login-name-field"));
-            config.put("modes.field2", plugin.getConfig().getString("modes.normal.rank-id-field"));
-            config.put("modes.multitable", plugin.getConfig().getBoolean("modes.normal.multitable.enable-multiple-tables"));
-            if ((Boolean) config.get("modes.multitable"))
-            {
-                config.put("modes.table2", plugin.getConfig().getString("modes.normal.multitable.second-table"));
-                config.put("modes.field3", plugin.getConfig().getString("modes.normal.multitable.user-id-field-in-user-table"));
-                config.put("modes.field4", plugin.getConfig().getString("modes.normal.multitable.user-id-field-in-second-table"));
-            }
-        }
+
         HashMap<String, String> groupmap = new HashMap<String, String>();
         List<String> groups = plugin.getConfig().getStringList("group-mapping.default");
         Iterator<String> group = groups.iterator();
