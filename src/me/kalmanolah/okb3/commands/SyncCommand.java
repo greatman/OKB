@@ -11,8 +11,8 @@ public class SyncCommand extends BaseCommand
 	{
 		this.command.add("sync");
 		this.helpDescription = "Sync your account with the forum";
-		this.optionalParameters.add("Username");
-		this.optionalParameters.add("Password");
+		this.requiredParameters.add("Username");
+		this.requiredParameters.add("Password");
 	}
 	
 	public void perform()
