@@ -59,7 +59,7 @@ public class OKmain extends JavaPlugin
             new OKConfig(this);
             try
             {
-                Class<?> that = this.getClassLoader().loadClass((String) OKConfig.config.get("configuration.forum"));
+                Class<?> that = OKBSync.class.getClassLoader().loadClass((String) OKConfig.config.get("configuration.forum"));
                 sync = (OKBSync) that.newInstance();
                 OKLogger.info("Loaded " + OKConfig.config.get("configuration.forum") + " forum link");
             }
