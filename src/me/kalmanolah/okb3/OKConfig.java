@@ -19,7 +19,8 @@ public class OKConfig
         plugin = thePlugin;
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
-        
+        config.put("configuration.forum", plugin.getConfig().getString("configuration.forum"));
+        config.put("db.prefix", plugin.getConfig().getString("configuration.prefix"));
         config.put("gen.whitelist", plugin.getConfig().getBoolean("general.enable-whitelist"));
         config.put("gen.nicks", plugin.getConfig().getBoolean("general.enable-nickname-syncing"));
         config.put("gen.bans", plugin.getConfig().getBoolean("general.enable-synced-banning"));

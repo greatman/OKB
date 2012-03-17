@@ -62,6 +62,15 @@ public class OKmain extends JavaPlugin
                 Class<?> that = OKBSync.class.getClassLoader().loadClass((String) OKConfig.config.get("configuration.forum"));
                 sync = (OKBSync) that.newInstance();
                 OKLogger.info("Loaded " + OKConfig.config.get("configuration.forum") + " forum link");
+                OKDatabase.initialize(this);
+                OKDB.initialize(this);
+                new OKFunctions(this);
+                //pm.registerEvents(playerListener, this);
+                setupCommands();
+                Metrics metrics = new Metrics(this);
+                metrics.start();
+                
+                OKLogger.info(name + " v" + version + " enabled successfully.");
             }
             catch (InstantiationException e)
             {
@@ -78,21 +87,10 @@ public class OKmain extends JavaPlugin
                 OKLogger.info("Forum link class not found, shutting down.... Check if the configuration.forum configuration node is configurated correctly.");
                 pm.disablePlugin(this);
             }
-            OKDatabase.initialize(this);
-            OKDB.initialize(this);
-            new OKFunctions(this);
-            //pm.registerEvents(playerListener, this);
-            setupCommands();
-            try
-            {
-                Metrics metrics = new Metrics(this);
-                metrics.start();
-            }
             catch (IOException e)
             {
                 OKLogger.info("An error occured while activating Plugin stats");
             }
-            OKLogger.info(name + " v" + version + " enabled successfully.");
         }
     }
 
