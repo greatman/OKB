@@ -19,15 +19,7 @@ public class OKConfig
         plugin = thePlugin;
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
-
-        if (plugin.getConfig().getString("general.mode").equalsIgnoreCase("secure"))
-        {
-            config.put("mode", 1);
-        }
-        else
-        {
-            config.put("mode", 0);
-        }
+        
         config.put("gen.whitelist", plugin.getConfig().getBoolean("general.enable-whitelist"));
         config.put("gen.nicks", plugin.getConfig().getBoolean("general.enable-nickname-syncing"));
         config.put("gen.bans", plugin.getConfig().getBoolean("general.enable-synced-banning"));
