@@ -59,13 +59,13 @@ public class OKmain extends JavaPlugin
             new OKConfig(this);
             try
             {
-                Class<?> that = OKBSync.class.getClassLoader().loadClass((String) OKConfig.config.get("configuration.forum"));
+                Class<?> that = OKBSync.class.getClassLoader().loadClass("me.kalmanolah.forumlistener." + (String) OKConfig.config.get("configuration.forum"));
                 sync = (OKBSync) that.newInstance();
                 OKLogger.info("Loaded " + OKConfig.config.get("configuration.forum") + " forum link");
                 OKDatabase.initialize(this);
                 OKDB.initialize(this);
                 new OKFunctions(this);
-                //pm.registerEvents(playerListener, this);
+                pm.registerEvents(playerListener, this);
                 setupCommands();
                 Metrics metrics = new Metrics(this);
                 metrics.start();
@@ -74,7 +74,7 @@ public class OKmain extends JavaPlugin
             }
             catch (InstantiationException e)
             {
-                OKLogger.info("A error occurec while loading the forum link class.");
+                OKLogger.info("A error occured while loading the forum link class. ");
                 pm.disablePlugin(this);
             }
             catch (IllegalAccessException e)
