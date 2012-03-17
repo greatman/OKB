@@ -38,7 +38,7 @@ public class OKConfig
         config.put("mysql.user", plugin.getConfig().getString("mysql-connection.mysql-user"));
         config.put("mysql.pass", plugin.getConfig().getString("mysql-connection.mysql-password"));
         config.put("mysql.db", plugin.getConfig().getString("mysql-connection.mysql-database-name"));
-        config.put("mysql.port", plugin.getConfig().getInt("mysql-connection.mysql-port"));
+        config.put("mysql.port", plugin.getConfig().getString("mysql-connection.mysql-port"));
 
         HashMap<String, String> groupmap = new HashMap<String, String>();
         List<String> groups = plugin.getConfig().getStringList("group-mapping.default");
