@@ -81,7 +81,7 @@ public class OKmain extends JavaPlugin
             OKDatabase.initialize(this);
             OKDB.initialize(this);
             new OKFunctions(this);
-            pm.registerEvents(playerListener, this);
+            //pm.registerEvents(playerListener, this);
             setupCommands();
             try
             {
