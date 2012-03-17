@@ -24,8 +24,6 @@ public class FsyncCommand extends BaseCommand
     public void perform()
     {
         String name = this.parameters.get(0);
-        if ((Integer) OKFunctions.getConfig("mode") == 1)
-        {
             String user = null;
             String pass = null;
             ResultSet test = null;
@@ -62,17 +60,5 @@ public class FsyncCommand extends BaseCommand
                     }
                 }
             }
-        }
-        else
-        {
-            Player target = OKmain.p.getServer().getPlayer(name);
-            if (target != null)
-            {
-                if (target.isOnline())
-                {
-                    OKFunctions.updateNormal(sender, target, name, true);
-                }
-            }
-        }
     }
 }

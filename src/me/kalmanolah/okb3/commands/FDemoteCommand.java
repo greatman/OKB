@@ -132,8 +132,6 @@ public class FDemoteCommand extends BaseCommand
                         {
                             if (target.isOnline())
                             {
-                                if ((Integer) OKFunctions.getConfig("mode") == 1)
-                                {
                                     if (user == null)
                                     {
                                         sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
@@ -142,11 +140,6 @@ public class FDemoteCommand extends BaseCommand
                                     {
                                         OKFunctions.updateSecure(sender, target, name, user, pass, true);
                                     }
-                                }
-                                else
-                                {
-                                    OKFunctions.updateNormal(sender, target, name, true);
-                                }
                             }
                         }
                         @SuppressWarnings("unchecked")

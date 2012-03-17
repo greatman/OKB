@@ -53,38 +53,31 @@ public class OKRunnable implements Runnable
             }
             if (banned == false)
             {
-                String rank = null;
-                if ((Integer) OKFunctions.getConfig("mode") == 0)
+                int rank = -1;
+                String user = null;
+                ResultSet test2 = null;
+                test2 = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
+                try
                 {
-                    rank = OKFunctions.getRankNormal(name);
-                }
-                else
-                {
-                    String user = null;
-                    ResultSet test2 = null;
-                    test2 = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
-                    try
+                    if (test2.next())
                     {
-                        if (test2.next())
+                        do
                         {
-                            do
-                            {
-                                user = test2.getString("user");
-                            }
-                            while (test2.next());
+                            user = test2.getString("user");
                         }
-                        test2.close();
+                        while (test2.next());
                     }
-                    catch (SQLException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    if (user != null)
-                    {
-                        rank = OKFunctions.getRankSecureNopass(user);
-                    }
+                    test2.close();
                 }
-                if (rank != null)
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
+                if (user != null)
+                {
+                    rank = OKmain.sync.getGroup(user);
+                }
+                if (rank != -1)
                 {
                     if ((Boolean) OKFunctions.getConfig("gen.whitelist"))
                     {
@@ -181,38 +174,31 @@ public class OKRunnable implements Runnable
             Player plr = teleportevent.getPlayer();
             String name = plr.getName();
             String world = teleportevent.getTo().getWorld().getName();
-            String rank = null;
-            if ((Integer) OKFunctions.getConfig("mode") == 0)
+            int rank = -1;
+            String user = null;
+            ResultSet test = null;
+            test = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
+            try
             {
-                rank = OKFunctions.getRankNormal(name);
-            }
-            else
-            {
-                String user = null;
-                ResultSet test = null;
-                test = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
-                try
+                if (test.next())
                 {
-                    if (test.next())
+                    do
                     {
-                        do
-                        {
-                            user = test.getString("user");
-                        }
-                        while (test.next());
+                        user = test.getString("user");
                     }
-                    test.close();
+                    while (test.next());
                 }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
-                }
-                if (user != null)
-                {
-                    rank = OKFunctions.getRankSecureNopass(user);
-                }
+                test.close();
             }
-            if (rank != "nope")
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            if (user != null)
+            {
+                rank = OKmain.sync.getGroup(user);
+            }
+            if (rank != -1)
             {
                 plugin.changeGroup(name, rank, world, false);
                 OKLogger.info("[BRIDGE] " + name + "'s ranks synced.");

@@ -256,8 +256,8 @@ public class OKFunctions
 
     public static void updateSecure(CommandSender sender, Player player, String plrname, String user, String pass, Boolean force)
     {
-        String rank = getRankSecurePass(user, pass);
-        if (rank != null)
+        int rank = OKmain.sync.getGroup(user);
+        if (rank != -1)
         {
             plugin.changeGroup(plrname, rank, "nope", true);
             OKDB.dbm.query("DELETE FROM players WHERE player = '" + plrname + "'");
@@ -278,40 +278,6 @@ public class OKFunctions
             if (!force)
             {
                 sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Incorrect username or password.");
-            }
-            else
-            {
-                sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Could not synchronize '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'s ranks.");
-            }
-        }
-        if ((Boolean) getConfig("gen.nicks"))
-        {
-            updateNick(player);
-        }
-    }
-
-    public static void updateNormal(CommandSender sender, Player player, String plrname, Boolean force)
-    {
-        String rank = getRankNormal(plrname);
-        if (rank != null)
-        {
-            plugin.changeGroup(plrname, rank, "nope", true);
-            if (!force)
-            {
-                sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
-                OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated.");
-            }
-            else
-            {
-                sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful for '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'.");
-                OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated by " + getName(sender) + ".");
-            }
-        }
-        else
-        {
-            if (!force)
-            {
-                sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Your ranks could not be synchronized.");
             }
             else
             {

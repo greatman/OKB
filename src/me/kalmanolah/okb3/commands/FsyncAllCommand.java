@@ -26,41 +26,34 @@ public class FsyncAllCommand extends BaseCommand
         for (Player p : players)
         {
             String name = p.getName();
-            if ((Integer) OKFunctions.getConfig("mode") == 1)
+            String user = null;
+            String pass = null;
+            ResultSet test = null;
+            test = OKDB.dbm.query("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+            try
             {
-                String user = null;
-                String pass = null;
-                ResultSet test = null;
-                test = OKDB.dbm.query("SELECT user,encpass FROM players WHERE player = '" + name + "'");
-                try
+                if (test.next())
                 {
-                    if (test.next())
+                    do
                     {
-                        do
-                        {
-                            user = test.getString("user");
-                            pass = test.getString("encpass");
-                        }
-                        while (test.next());
+                        user = test.getString("user");
+                        pass = test.getString("encpass");
                     }
-                    test.close();
+                    while (test.next());
                 }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
-                }
-                if (user == null)
-                {
-                    sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Player '" + ChatColor.WHITE + name + ChatColor.GRAY + "' has no saved login details.");
-                }
-                else
-                {
-                    OKFunctions.updateSecure(sender, p, name, user, pass, true);
-                }
+                test.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            if (user == null)
+            {
+                sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Player '" + ChatColor.WHITE + name + ChatColor.GRAY + "' has no saved login details.");
             }
             else
             {
-                OKFunctions.updateNormal(sender, p, name, true);
+                OKFunctions.updateSecure(sender, p, name, user, pass, true);
             }
         }
     }

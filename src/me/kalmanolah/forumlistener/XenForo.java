@@ -15,7 +15,6 @@ public class XenForo implements OKBSync
     @Override
     public boolean accountExist(String username, String password)
     {
-        // TODO Auto-generated method stub
         String encpass = "nope";
         boolean exist = false;
         try

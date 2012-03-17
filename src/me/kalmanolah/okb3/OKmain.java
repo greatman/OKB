@@ -29,6 +29,7 @@ public class OKmain extends JavaPlugin
     public static List<Player> portals = new ArrayList<Player>();
     public static HashMap<Player, String> cachedjoinmsgs = new HashMap<Player, String>();
     public static Permission perms;
+    public static OKBSync sync;
     public static OKmain p;
 
     private boolean setupPermissions()
@@ -56,6 +57,27 @@ public class OKmain extends JavaPlugin
         else
         {
             new OKConfig(this);
+            try
+            {
+                Class<?> that = this.getClassLoader().loadClass("me.kalmanolah.forumlistener." + (String) OKConfig.config.get("configuration.forum"));
+                sync = (OKBSync) that.newInstance();
+                OKLogger.info("Loaded " + OKConfig.config.get("configuration.forum") + " forum link");
+            }
+            catch (InstantiationException e)
+            {
+                OKLogger.info("A error occurec while loading the forum link class.");
+                pm.disablePlugin(this);
+            }
+            catch (IllegalAccessException e)
+            {
+                OKLogger.info("A error occurec while loading the forum link class.");
+                pm.disablePlugin(this);
+            }
+            catch (ClassNotFoundException e1)
+            {
+                OKLogger.info("Forum link class not found, shutting down.... Check if the configuration.forum configuration node is configurated correctly.");
+                pm.disablePlugin(this);
+            }
             OKDatabase.initialize(this);
             OKDB.initialize(this);
             new OKFunctions(this);
@@ -106,7 +128,7 @@ public class OKmain extends JavaPlugin
     }
 
     @SuppressWarnings("unchecked")
-    public void changeGroup(String player, String group, String world, Boolean mode)
+    public void changeGroup(String player, int rank, String world, Boolean mode)
     {
         String groupname = null;
         if (mode)
@@ -118,14 +140,14 @@ public class OKmain extends JavaPlugin
         {
             worldgroups = (HashMap<String, String>) OKFunctions.getConfig("groups");
         }
-        if (worldgroups.containsKey(group))
+        if (worldgroups.containsKey(rank))
         {
-            groupname = worldgroups.get(group);
+            groupname = worldgroups.get(rank);
         }
         if (groupname == null)
         {
             worldgroups = (HashMap<String, String>) OKFunctions.getConfig("groups");
-            groupname = worldgroups.get(group);
+            groupname = worldgroups.get(rank);
         }
         if (groupname != null)
         {

@@ -96,20 +96,13 @@ public class FRankCommand extends BaseCommand
             {
                 if (target.isOnline())
                 {
-                    if ((Integer) OKFunctions.getConfig("mode") == 1)
+                    if (user == null)
                     {
-                        if (user == null)
-                        {
-                            sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
-                        }
-                        else
-                        {
-                            OKFunctions.updateSecure(sender, target, name, user, pass, true);
-                        }
+                        sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
                     }
                     else
                     {
-                        OKFunctions.updateNormal(sender, target, name, true);
+                        OKFunctions.updateSecure(sender, target, name, user, pass, true);
                     }
                 }
             }

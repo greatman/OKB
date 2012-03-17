@@ -99,15 +99,11 @@ public class FPromoteCommand extends BaseCommand
 						Player target = OKmain.p.getServer().getPlayer(name);
 						if (target != null) {
 							if (target.isOnline()) {
-								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									if (user == null) {
 										sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
 									} else {
 										OKFunctions.updateSecure(sender, target, name, user, pass, true);
 									}
-								} else {
-									OKFunctions.updateNormal(sender, target, name, true);
-								}
 							}
 						}
 						@SuppressWarnings("unchecked")
