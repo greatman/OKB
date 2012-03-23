@@ -16,8 +16,8 @@ mysql-connection:
   mysql-port: '3306'
 group-mapping:
   default:
-    '1': ExampleGroup1
-    '2': ExampleGroup2
+    1: ExampleGroup1
+    2: ExampleGroup2
   worlds:
     exampleworld1:
       '1': ExampleGroup1

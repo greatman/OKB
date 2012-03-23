@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class OKConfig
 {
@@ -13,7 +17,33 @@ public class OKConfig
     static File file = new File(directory + File.separator + "config.yml");
 
     private static OKmain plugin;
-
+    private static YamlConfiguration load() {
+        try {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            return config;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private static List<String> readStringList(String root) {
+        YamlConfiguration config = load();
+        List<String> list = new ArrayList<String>();
+        ConfigurationSection section = config.getConfigurationSection(root);
+        if(section == null){
+        return null;
+        }else{
+        Set<String> keys = section.getKeys(false);
+        if(keys == null){
+        return null;
+        }else{
+        for (String key : config.getConfigurationSection(root).getKeys(false)) {
+                            list.add(key);
+                        }
+        return list;
+        }
+        }
+        }
     public OKConfig(OKmain thePlugin)
     {
         plugin = thePlugin;
@@ -33,12 +63,13 @@ public class OKConfig
         config.put("mysql.db", plugin.getConfig().getString("mysql-connection.mysql-database-name"));
         config.put("mysql.port", plugin.getConfig().getString("mysql-connection.mysql-port"));
 
-        HashMap<String, String> groupmap = new HashMap<String, String>();
-        List<String> groups = plugin.getConfig().getStringList("group-mapping.default");
+        HashMap<Integer, String> groupmap = new HashMap<Integer, String>();
+        List<String> groups = readStringList("group-mapping.default");
         Iterator<String> group = groups.iterator();
         while (group.hasNext())
         {
-            String nextgroup = group.next();
+            
+            int nextgroup = Integer.parseInt(group.next());
             groupmap.put(nextgroup, plugin.getConfig().getString("group-mapping.default." + nextgroup));
         }
         config.put("groups", groupmap);

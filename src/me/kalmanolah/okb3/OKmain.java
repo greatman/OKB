@@ -129,34 +129,47 @@ public class OKmain extends JavaPlugin
     public void changeGroup(String player, int rank, String world, Boolean mode)
     {
         String groupname = null;
+        HashMap<Integer, String> worldgroups;
         if (mode)
         {
             world = getServer().getPlayer(player).getWorld().getName();
-        }
-        HashMap<String, String> worldgroups = (HashMap<String, String>) OKFunctions.getConfig("groups." + world);
-        if (worldgroups == null)
-        {
-            worldgroups = (HashMap<String, String>) OKFunctions.getConfig("groups");
-        }
-        if (worldgroups.containsKey(rank))
-        {
-            groupname = worldgroups.get(rank);
-        }
-        if (groupname == null)
-        {
-            worldgroups = (HashMap<String, String>) OKFunctions.getConfig("groups");
-            groupname = worldgroups.get(rank);
-        }
-        if (groupname != null)
-        {
-            String[] groupList = perms.getPlayerGroups(getServer().getPlayer(player));
-            for (int i = 0; i < groupList.length; i++)
+            worldgroups = (HashMap<Integer, String>) OKFunctions.getConfig("groups." + world);
+            if (worldgroups == null)
             {
-                perms.playerRemoveGroup(getServer().getPlayer(player), groupList[i]);
+                worldgroups = (HashMap<Integer, String>) OKFunctions.getConfig("groups");  
             }
-            perms.playerAddGroup(getServer().getPlayer(player), groupname);
-
         }
+        else
+        {
+            worldgroups = (HashMap<Integer, String>) OKFunctions.getConfig("groups");  
+        }
+        if (worldgroups != null)
+        {
+            if (worldgroups.containsKey(rank))
+            {
+                groupname = worldgroups.get(rank);
+            }
+            if (groupname == null)
+            {
+                worldgroups = (HashMap<Integer, String>) OKFunctions.getConfig("groups");
+                groupname = worldgroups.get(rank);
+            }
+            if (groupname != null)
+            {
+                String[] groupList = perms.getPlayerGroups(getServer().getPlayer(player));
+                for (int i = 0; i < groupList.length; i++)
+                {
+                    perms.playerRemoveGroup(getServer().getPlayer(player), groupList[i]);
+                }
+                perms.playerAddGroup(getServer().getPlayer(player), groupname);
+
+            }
+        }
+        else
+        {
+            OKLogger.info("ERROR");
+        }
+        
     }
 
     public static boolean CheckPermission(Player player, String string)
