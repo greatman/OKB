@@ -40,7 +40,7 @@ public interface OKBSync
     /**
      * Get the website group ID of a user
      * @param username The player account username on the website
-     * @return The group ID. If none found return -1
+     * @return A list of group ID
      */
     public List<Integer> getGroup(String username);
     
