@@ -66,7 +66,7 @@ public class OKConfig
         config.put("mysql.pass", plugin.getConfig().getString("mysql-connection.mysql-password"));
         config.put("mysql.db", plugin.getConfig().getString("mysql-connection.mysql-database-name"));
         config.put("mysql.port", plugin.getConfig().getString("mysql-connection.mysql-port"));
-
+        config.put("use.secondary.group", plugin.getConfig().getBoolean("configuration.use-secondary-group"));
         HashMap<Integer, String> groupmap = new HashMap<Integer, String>();
         List<String> groups = readStringList("group-mapping.default");
         Iterator<String> group = groups.iterator();

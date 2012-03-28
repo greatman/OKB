@@ -8,6 +8,7 @@ general:
 configuration:
   forum: phpbb
   prefix: myforum_
+  use-secondary-group: false
 mysql-connection:
   mysql-host: localhost
   mysql-user: root

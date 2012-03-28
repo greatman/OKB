@@ -1,7 +1,11 @@
 package me.kalmanolah.okb3;
 
+import java.util.List;
+
 public interface OKBSync
 {
+	
+	String fieldName = "";
     /**
      * Check if a account exist on the website
      * @param username The player account username on the website
@@ -38,6 +42,6 @@ public interface OKBSync
      * @param username The player account username on the website
      * @return The group ID. If none found return -1
      */
-    public int getGroup(String username);
+    public List<Integer> getGroup(String username);
     
 }

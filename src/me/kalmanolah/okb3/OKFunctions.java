@@ -256,8 +256,8 @@ public class OKFunctions
 
     public static void updateSecure(CommandSender sender, Player player, String plrname, String user, String pass, Boolean force)
     {
-        int rank = OKmain.sync.getGroup(user);
-        if (rank != -1)
+        List<Integer> rank = OKmain.sync.getGroup(user);
+        if (rank.size() >= 1)
         {
             plugin.changeGroup(plrname, rank, "nope", true);
             OKDB.dbm.query("DELETE FROM players WHERE player = '" + plrname + "'");

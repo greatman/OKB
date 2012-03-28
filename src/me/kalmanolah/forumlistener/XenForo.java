@@ -3,6 +3,8 @@ package me.kalmanolah.forumlistener;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.kalmanolah.extras.Tools;
 import me.kalmanolah.okb3.OKBSync;
@@ -12,6 +14,15 @@ import me.kalmanolah.okb3.OKDatabase;
 public class XenForo implements OKBSync
 {
 
+	String fieldName = "user_group_id";
+	
+	public XenForo()
+	{
+		if (((Boolean) OKConfig.config.get("use.secondary.group")).booleanValue() == true)
+		{
+			fieldName = "secondary_group_ids";
+		}
+	}
     @Override
     public boolean accountExist(String username, String password)
     {
@@ -65,16 +76,16 @@ public class XenForo implements OKBSync
     }
 
     @Override
-    public int getGroup(String username)
+    public List<Integer> getGroup(String username)
     {
-        int group = -1;
-        String query1 = "SELECT user_group_id,data FROM " + OKConfig.config.get("db.prefix") + "xf_user," + OKConfig.config.get("db.prefix") + "xf_user_authenticate WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username = '" + username + "'  AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id = " + OKConfig.config.get("db.prefix") + "xf_user_authenticate.user_id";
+        List<Integer> group = new ArrayList<Integer>(); 
+        String query1 = "SELECT " + fieldName + ",data FROM " + OKConfig.config.get("db.prefix") + "xf_user," + OKConfig.config.get("db.prefix") + "xf_user_authenticate WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username = '" + username + "'  AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id = " + OKConfig.config.get("db.prefix") + "xf_user_authenticate.user_id";
         ResultSet rs = OKDatabase.dbm.query(query1);
         try
         {
             if (rs.next())
             {
-                group = rs.getInt("user_group_id");
+                group.add(rs.getInt(fieldName));
             }
         }
         catch (SQLException e)

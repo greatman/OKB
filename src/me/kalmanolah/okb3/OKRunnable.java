@@ -2,7 +2,9 @@ package me.kalmanolah.okb3;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -53,7 +55,7 @@ public class OKRunnable implements Runnable
             }
             if (banned == false)
             {
-                int rank = -1;
+                List<Integer> rank = new ArrayList<Integer>();
                 String user = null;
                 ResultSet test2 = null;
                 test2 = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
@@ -77,7 +79,7 @@ public class OKRunnable implements Runnable
                 {
                     rank = OKmain.sync.getGroup(user);
                 }
-                if (rank != -1)
+                if (rank.size() >= 1)
                 {
                     if ((Boolean) OKFunctions.getConfig("gen.whitelist"))
                     {
@@ -174,7 +176,7 @@ public class OKRunnable implements Runnable
             Player plr = teleportevent.getPlayer();
             String name = plr.getName();
             String world = teleportevent.getTo().getWorld().getName();
-            int rank = -1;
+            List<Integer> rank = new ArrayList<Integer>();
             String user = null;
             ResultSet test = null;
             test = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
@@ -198,7 +200,7 @@ public class OKRunnable implements Runnable
             {
                 rank = OKmain.sync.getGroup(user);
             }
-            if (rank != -1)
+            if (rank.size() >= 1)
             {
                 plugin.changeGroup(name, rank, world, false);
                 OKLogger.info("[BRIDGE] " + name + "'s ranks synced.");
