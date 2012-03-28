@@ -18,6 +18,7 @@ public class OKConfig
 
     private static OKmain plugin;
     private static YamlConfiguration load() {
+    	
         try {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             return config;
@@ -47,8 +48,11 @@ public class OKConfig
     public OKConfig(OKmain thePlugin)
     {
         plugin = thePlugin;
-        plugin.getConfig().options().copyDefaults(true);
-        plugin.saveConfig();
+        if (!file.exists())
+        {
+        	plugin.getConfig().options().copyDefaults(true);
+        	plugin.saveConfig();
+        }
         config.put("configuration.forum", plugin.getConfig().getString("configuration.forum"));
         config.put("db.prefix", plugin.getConfig().getString("configuration.prefix"));
         config.put("gen.whitelist", plugin.getConfig().getBoolean("general.enable-whitelist"));
