@@ -56,7 +56,7 @@ public class IPB implements OKBSync
 	public void changeRank(String username, int forumGroupId)
 	{
 		// TODO Auto-generated method stub
-		OKDatabase.dbm.query("UPDATE " + OKConfig.config.get("db.prefix") + "members SET members_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'");
+		OKDatabase.dbm.query("UPDATE " + OKConfig.config.get("db.prefix") + "members SET member_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'");
 	}
 
 	@Override
@@ -79,12 +79,12 @@ public class IPB implements OKBSync
 		List<Integer> group = new ArrayList<Integer>();
 		try
 		{
-			ResultSet rs = OKDatabase.dbm.query("SELECT members_group_id FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'");
+			ResultSet rs = OKDatabase.dbm.query("SELECT member_group_id FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'");
 			if (rs.next())
 			{
 				do
 				{
-					group.add(rs.getInt("members_group_id"));
+					group.add(rs.getInt("member_group_id"));
 				}
 				while(rs.next());
 			}
