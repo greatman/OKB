@@ -55,6 +55,10 @@ public class OKConfig
         }
         config.put("configuration.forum", plugin.getConfig().getString("configuration.forum"));
         config.put("db.prefix", plugin.getConfig().getString("configuration.prefix"));
+        if (config.get("db.prefix") == null)
+        {
+            config.put("db.prefix", "");
+        }
         config.put("gen.whitelist", plugin.getConfig().getBoolean("general.enable-whitelist"));
         config.put("gen.nicks", plugin.getConfig().getBoolean("general.enable-nickname-syncing"));
         config.put("gen.bans", plugin.getConfig().getBoolean("general.enable-synced-banning"));
