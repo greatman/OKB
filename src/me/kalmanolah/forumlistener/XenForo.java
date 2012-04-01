@@ -20,7 +20,7 @@ public class XenForo implements OKBSync
 	{
 		if (((Boolean) OKConfig.config.get("use.secondary.group")).booleanValue() == true)
 		{
-			fieldName = "secondary_group_ids";
+			fieldName = "display_style_group_id";
 		}
 	}
     @Override
