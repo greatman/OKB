@@ -18,6 +18,7 @@ public class FsyncAllCommand extends BaseCommand
         this.command.add("fsyncall");
         this.helpDescription = "Force sync all accounts";
         this.permFlag = "bbb.forceall";
+        this.senderMustBePlayer = false;
     }
 
     public void perform()

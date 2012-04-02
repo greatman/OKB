@@ -3,13 +3,17 @@ author:
     - Kalman Olah
     - greatman321
 main: me.kalmanolah.okb3.OKmain
-version: 3.6.0
+version: 3.6.2
 database: false
 description: >
              A forum bridge plugin for Bukkit.
 commands:
   bbb:
     description: Bulletin Board Bridge help menu.
+    usage: |
+           Usage: /<command>
+  bbbversion:
+    description: Bulletin Board Bridge version command.
     usage: |
            Usage: /<command>
   sync:

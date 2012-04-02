@@ -23,6 +23,7 @@ public class FRankCommand extends BaseCommand
         this.requiredParameters.add("Rank ID");
         this.helpDescription = "Set the rank of a player both ingame and on the forum";
         this.permFlag = "bbb.rank";
+        this.senderMustBePlayer = false;
     }
 
     public void perform()

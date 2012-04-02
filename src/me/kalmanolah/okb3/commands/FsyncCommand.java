@@ -19,6 +19,7 @@ public class FsyncCommand extends BaseCommand
         this.permFlag = "bbb.force";
         this.requiredParameters.add("Username");
         this.helpDescription = "Force syncing a player";
+        this.senderMustBePlayer = false;
     }
 
     public void perform()

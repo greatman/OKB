@@ -24,6 +24,7 @@ public class FDemoteCommand extends BaseCommand
         this.permFlag = "bbb.demote";
         this.helpDescription = "Demote a player both ingame and on the forum";
         this.requiredParameters.add("Username");
+        this.senderMustBePlayer = false;
     }
 
     public void perform()

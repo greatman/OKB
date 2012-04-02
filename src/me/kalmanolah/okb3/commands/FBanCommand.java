@@ -22,6 +22,7 @@ public class FBanCommand extends BaseCommand
         this.helpDescription = "Ban someone ingame and on the forum";
         this.requiredParameters.add("Player Name");
         this.optionalParameters.add("Reason");
+        this.senderMustBePlayer = false;
     }
 
     public void perform()

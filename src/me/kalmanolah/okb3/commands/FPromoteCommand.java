@@ -23,6 +23,7 @@ public class FPromoteCommand extends BaseCommand
 		this.requiredParameters.add("Username");
 		permFlag = "bbb.promote";
 		this.helpDescription = "Promote a player both ingame and in the forum";
+		this.senderMustBePlayer = false;
 	}
 	
 	public void perform()

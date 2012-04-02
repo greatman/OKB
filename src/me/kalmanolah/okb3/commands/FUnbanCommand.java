@@ -18,6 +18,7 @@ public class FUnbanCommand extends BaseCommand
         this.command.add("funban");
         this.permFlag = "bbb.unban";
         this.helpDescription = "Unban someone from the forum and ingame";
+        this.senderMustBePlayer = false;
     }
 
     public void perform()
