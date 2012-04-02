@@ -34,6 +34,7 @@ public class PHPBB3 implements OKBSync
                     
                 }
             }
+            result.close();
         }
         catch (SQLException e)
         {
@@ -47,8 +48,8 @@ public class PHPBB3 implements OKBSync
     {
         try
         {
-            PreparedStatement query = OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "users SET group_id=" + forumGroupId + " WHERE username='" + username + "'"); 
-            query.execute();
+            OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "users SET group_id=" + forumGroupId + " WHERE username='" + username + "'").executeUpdate(); 
+           
         }
         catch (SQLException e)
         {
@@ -99,6 +100,7 @@ public class PHPBB3 implements OKBSync
                     while(result.next());
                 }
             }
+            result.close();
         }
         catch (SQLException e)
         {

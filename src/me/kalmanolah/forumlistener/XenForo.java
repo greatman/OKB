@@ -87,12 +87,14 @@ public class XenForo implements OKBSync
             {
                 group.add(rs.getInt(fieldName));
             }
+            rs.close();
         }
         catch (SQLException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
         return group;
     }
 

@@ -88,6 +88,7 @@ public class IPB implements OKBSync
 				}
 				while(rs.next());
 			}
+			rs.close();
 		}
 		catch (SQLException e)
         {
