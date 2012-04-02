@@ -26,7 +26,7 @@ public class IPB implements OKBSync
 		String encpass = "nope";
 		try
         {
-            ResultSet rs = OKDatabase.dbm.query("SELECT members_pass_hash,members_pass_salt FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'");
+            ResultSet rs = OKDatabase.dbm.prepare("SELECT members_pass_hash,members_pass_salt FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'").executeQuery();
             if (rs.next())
             {
                 do
@@ -55,21 +55,28 @@ public class IPB implements OKBSync
 	@Override
 	public void changeRank(String username, int forumGroupId)
 	{
-		// TODO Auto-generated method stub
-		OKDatabase.dbm.query("UPDATE " + OKConfig.config.get("db.prefix") + "members SET member_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'");
+		try
+        {
+            OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "members SET member_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'").executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 
 	@Override
 	public void ban(String username, int forumGroupId)
 	{
-		// TODO Auto-generated method stub
+		// TODO use IPB ban system
 		changeRank(username,forumGroupId);
 	}
 
 	@Override
 	public void unban(String username, int forumGroupId)
 	{
-		// TODO Auto-generated method stub
+		// TODO use IPB ban system
 		changeRank(username,forumGroupId);
 	}
 
@@ -79,7 +86,7 @@ public class IPB implements OKBSync
 		List<Integer> group = new ArrayList<Integer>();
 		try
 		{
-			ResultSet rs = OKDatabase.dbm.query("SELECT member_group_id FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'");
+			ResultSet rs = OKDatabase.dbm.prepare("SELECT member_group_id FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'").executeQuery();
 			if (rs.next())
 			{
 				do

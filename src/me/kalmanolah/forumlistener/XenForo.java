@@ -30,8 +30,8 @@ public class XenForo implements OKBSync
         boolean exist = false;
         try
         {
-            ResultSet rs = OKDatabase.dbm.query("SELECT data FROM " + (String) OKConfig.config.get("db.prefix") + "xf_user_authenticate," + (String) OKConfig.config.get("db.prefix")
-                    + "xf_user WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username = '" + username + "' AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id = " + OKConfig.config.get("db.prefix") + "xf_user_authenticate.user_id");
+            ResultSet rs = OKDatabase.dbm.prepare("SELECT data FROM " + (String) OKConfig.config.get("db.prefix") + "xf_user_authenticate," + (String) OKConfig.config.get("db.prefix")
+                    + "xf_user WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username = '" + username + "' AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id = " + OKConfig.config.get("db.prefix") + "xf_user_authenticate.user_id").executeQuery();
             if (rs.next())
             {
                 do
@@ -60,7 +60,15 @@ public class XenForo implements OKBSync
     @Override
     public void changeRank(String username, int forumGroupId)
     {
-        OKDatabase.dbm.query("UPDATE " + OKConfig.config.get("db.prefix") + "xf_user," + OKConfig.config.get("db.prefix")+ "xf_user_authenticate SET user_group_id='" + forumGroupId + "' WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username='" + username + "' AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id=xf_user_authenticate.user_id");
+        try
+        {
+            OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "xf_user," + OKConfig.config.get("db.prefix")+ "xf_user_authenticate SET user_group_id='" + forumGroupId + "' WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username='" + username + "' AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id=xf_user_authenticate.user_id").executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -80,9 +88,9 @@ public class XenForo implements OKBSync
     {
         List<Integer> group = new ArrayList<Integer>(); 
         String query1 = "SELECT " + fieldName + ",data FROM " + OKConfig.config.get("db.prefix") + "xf_user," + OKConfig.config.get("db.prefix") + "xf_user_authenticate WHERE " + OKConfig.config.get("db.prefix") + "xf_user.username = '" + username + "'  AND " + OKConfig.config.get("db.prefix") + "xf_user.user_id = " + OKConfig.config.get("db.prefix") + "xf_user_authenticate.user_id";
-        ResultSet rs = OKDatabase.dbm.query(query1);
         try
         {
+            ResultSet rs = OKDatabase.dbm.prepare(query1).executeQuery();
             if (rs.next())
             {
                 group.add(rs.getInt(fieldName));
