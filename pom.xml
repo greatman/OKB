@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>OKB3</groupId>
 	<artifactId>OKB3</artifactId>
-	<version>3.6.1-SNAPSHOT</version>
+	<version>3.6.2-SNAPSHOT</version>
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
