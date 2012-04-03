@@ -140,7 +140,7 @@ public class OKFunctions
         }
     }
 
-    public static List<Integer> getRankSecurePass(String user, String pass)
+    public static String getRankSecurePass(String user, String pass)
     {
         String query1 = null;
         Integer enctype = (Integer) getConfig("enctype");
