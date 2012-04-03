@@ -126,10 +126,10 @@ public class OKConfig
         if ((Boolean) config.get("gen.track"))
         {
             String[] track = plugin.getConfig().getString("extras.promotion-track.track").split("\\|");
-            List<String> promotiontrack = new ArrayList<String>();
+            List<Integer> promotiontrack = new ArrayList<Integer>();
             for (String t : track)
             {
-                promotiontrack.add(t);
+                promotiontrack.add(Integer.parseInt(t));
             }
             config.put("track.track", promotiontrack);
             HashMap<String, String> identifiers = new HashMap<String, String>();

@@ -10,6 +10,16 @@
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
 	</repositories>
+	<distributionManagement>
+    <repository>
+        <id>deploymentRepo</id>
+        <url>http://repo.greatmancode.com/artifactory/plugins-release-local</url>
+    </repository>
+    <snapshotRepository>
+        <id>deploymentRepo</id>
+        <url>http://repo.greatmancode.com/artifactory/plugins-release-local</url>
+    </snapshotRepository>
+</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
