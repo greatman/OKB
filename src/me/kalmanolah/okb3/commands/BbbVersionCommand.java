@@ -1,6 +1,5 @@
 package me.kalmanolah.okb3.commands;
 
-import me.kalmanolah.okb3.OKLogger;
 import me.kalmanolah.okb3.OKmain;
 
 import org.bukkit.ChatColor;
