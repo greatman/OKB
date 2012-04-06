@@ -84,7 +84,7 @@ public class vBulletin implements OKBSync {
 			{
 				do
 				{
-					group.add(rs.getInt("usergroupids"));
+					group.add(rs.getInt("membergroupids"));
 				}
 				while(rs.next());
 			}
