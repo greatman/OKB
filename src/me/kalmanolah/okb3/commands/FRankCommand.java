@@ -9,12 +9,13 @@ import java.util.List;
 import me.kalmanolah.okb3.OKDB;
 import me.kalmanolah.okb3.OKDatabase;
 import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKLogger;
 import me.kalmanolah.okb3.OKmain;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.greatmancode.okb3.OKLogger;
 
 public class FRankCommand extends BaseCommand
 {

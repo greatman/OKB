@@ -1,4 +1,4 @@
-package me.kalmanolah.okb3;
+package com.greatmancode.okb3;
 
 import java.util.List;
 

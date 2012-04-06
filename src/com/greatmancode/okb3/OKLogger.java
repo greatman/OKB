@@ -1,7 +1,9 @@
-package me.kalmanolah.okb3;
+package com.greatmancode.okb3;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import me.kalmanolah.okb3.OKmain;
 
 public class OKLogger
 {

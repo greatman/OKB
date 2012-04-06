@@ -2,6 +2,8 @@ package me.kalmanolah.okb3;
 
 import java.io.File;
 
+import com.greatmancode.okb3.OKLogger;
+
 import me.kalmanolah.extras.lib.PatPeter.SQLibrary.SQLite;
 
 public class OKDB

@@ -7,10 +7,11 @@ import me.kalmanolah.extras.TextUtil;
 import me.kalmanolah.okb3.OKDB;
 import me.kalmanolah.okb3.OKDatabase;
 import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKLogger;
 import me.kalmanolah.okb3.OKmain;
 
 import org.bukkit.ChatColor;
+
+import com.greatmancode.okb3.OKLogger;
 
 public class FBanCommand extends BaseCommand
 {

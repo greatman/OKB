@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import me.kalmanolah.extras.Metrics;
 import me.kalmanolah.okb3.commands.*;
 import net.milkbowl.vault.permission.Permission;
 
@@ -18,6 +17,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.greatmancode.extras.Metrics;
+import com.greatmancode.okb3.OKBSync;
+import com.greatmancode.okb3.OKLogger;
 
 public class OKmain extends JavaPlugin
 {
@@ -80,7 +83,7 @@ public class OKmain extends JavaPlugin
             }
             catch (IllegalAccessException e)
             {
-                OKLogger.info("A error occurec while loading the forum link class.");
+                OKLogger.info("A error occured while loading the forum link class.");
                 pm.disablePlugin(this);
             }
             catch (ClassNotFoundException e1)

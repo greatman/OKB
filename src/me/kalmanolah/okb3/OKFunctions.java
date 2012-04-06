@@ -15,6 +15,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.greatmancode.okb3.OKLogger;
+
 public class OKFunctions
 {
     private static OKmain plugin;

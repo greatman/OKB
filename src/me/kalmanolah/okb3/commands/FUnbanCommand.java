@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import me.kalmanolah.okb3.OKDB;
 import me.kalmanolah.okb3.OKDatabase;
 import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKLogger;
 
 import org.bukkit.ChatColor;
+
+import com.greatmancode.okb3.OKLogger;
 
 public class FUnbanCommand extends BaseCommand
 {

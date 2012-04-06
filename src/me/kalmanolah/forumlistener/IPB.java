@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.greatmancode.okb3.OKBSync;
+
 import me.kalmanolah.extras.Tools;
-import me.kalmanolah.okb3.OKBSync;
 import me.kalmanolah.okb3.OKConfig;
 import me.kalmanolah.okb3.OKDatabase;
 

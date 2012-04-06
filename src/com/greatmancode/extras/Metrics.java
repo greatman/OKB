@@ -1,4 +1,4 @@
-package me.kalmanolah.extras;
+package com.greatmancode.extras;
 
 /*
  * Copyright 2011 Tyler Blair. All rights reserved.

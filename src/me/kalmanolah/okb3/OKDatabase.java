@@ -1,5 +1,7 @@
 package me.kalmanolah.okb3;
 
+import com.greatmancode.okb3.OKLogger;
+
 import me.kalmanolah.extras.lib.PatPeter.SQLibrary.MySQL;
 
 public class OKDatabase

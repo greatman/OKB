@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.greatmancode.okb3.OKBSync;
+
 import me.kalmanolah.extras.PHPBB3Password;
-import me.kalmanolah.okb3.OKBSync;
 import me.kalmanolah.okb3.OKConfig;
 import me.kalmanolah.okb3.OKDatabase;
 

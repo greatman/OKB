@@ -11,6 +11,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import com.greatmancode.okb3.OKLogger;
+
 public class OKRunnable implements Runnable
 {
     public static OKmain plugin;
