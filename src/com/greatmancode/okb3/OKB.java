@@ -31,7 +31,7 @@ public class OKB extends JavaPlugin
         new OKConfig(this);
         
         //Loading databases
-        OKBDb = new OKBInternalDB();
+        OKBDb = new OKBInternalDB(this);
         
         //Load the corresponding link file along with metrics
         try
