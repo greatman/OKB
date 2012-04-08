@@ -1,4 +1,4 @@
-package me.kalmanolah.okb3.commands;
+package com.greatmancode.okb3.commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,18 +15,19 @@ import me.kalmanolah.okb3.OKmain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-public class FPromoteCommand extends BaseCommand
+public class FDemoteCommand extends BaseCommand
 {
-	public FPromoteCommand()
-	{
-		this.command.add("fpromote");
-		this.requiredParameters.add("Username");
-		permFlag = "bbb.promote";
-		this.helpDescription = "Promote a player both ingame and in the forum";
-		this.senderMustBePlayer = false;
-	}
-	
-	@SuppressWarnings("unchecked")
+
+    public FDemoteCommand()
+    {
+        this.command.add("fdemote");
+        this.permFlag = "bbb.demote";
+        this.helpDescription = "Demote a player both ingame and on the forum";
+        this.requiredParameters.add("Username");
+        this.senderMustBePlayer = false;
+    }
+
+    @SuppressWarnings("unchecked")
 	public void perform()
 	{
 		
@@ -69,15 +70,15 @@ public class FPromoteCommand extends BaseCommand
 				} 
 				else 
 				{
-					if (track.size() < (highest + 1))
+					if (track.size() < (highest - 1))
 					{
-						OKmain.sync.changeRank(name, track.get(highest + 1));
+						OKmain.sync.changeRank(name, track.get(highest - 1));
 						OKmain.p.changeGroup(name, rank, "nope", true);
-						sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' was promoted to '" + ChatColor.WHITE + ((HashMap<Integer,String>) OKConfig.config.get("groups")).get(track.get(highest + 1)) + ChatColor.GRAY + "'.");
+						sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' was demoted to '" + ChatColor.WHITE + ((HashMap<Integer,String>) OKConfig.config.get("groups")).get(track.get(highest + 1)) + ChatColor.GRAY + "'.");
 					}
 					else
 					{
-						sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "You can't promote this player any more.");
+						sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "You can't demote this player any more.");
 					}
 					
 				}

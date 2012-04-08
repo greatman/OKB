@@ -1,19 +1,14 @@
-package me.kalmanolah.okb3.commands;
+package com.greatmancode.okb3.commands;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.kalmanolah.okb3.OKDB;
-import me.kalmanolah.okb3.OKDatabase;
 import me.kalmanolah.okb3.OKFunctions;
 import me.kalmanolah.okb3.OKmain;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import com.greatmancode.okb3.OKLogger;
 
@@ -34,8 +29,7 @@ public class FRankCommand extends BaseCommand
     {
         String name = this.parameters.get(0);
         String id = this.parameters.get(1);
-        String user = null;
-        String pass = null;
+        
         @SuppressWarnings("unchecked")
         HashMap<String, String> rankidentifiers = (HashMap<String, String>) OKFunctions.getConfig("ranks.identifiers");
         String newrankid = rankidentifiers.get(id.toLowerCase());

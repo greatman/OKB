@@ -25,12 +25,13 @@ public class OKBInternalDB
             String query = "CREATE TABLE bans (id INT AUTO_INCREMENT PRIMARY_KEY, player VARCHAR(255), reason VARCHAR(255));";
             db.createTable(query);
         }
-        if (!db.checkTable("posts"))
-        {
-            OKLogger.dbinfo("Creating table 'posts'...");
-            String query = "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY_KEY, name VARCHAR(255), postcount INT(10));";
-            db.createTable(query);
-        }
+        //TODO: How posts works?
+        //if (!db.checkTable("posts"))
+        //{
+        //   OKLogger.dbinfo("Creating table 'posts'...");
+        //	String query = "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY_KEY, name VARCHAR(255), postcount INT(10));";
+        //    db.createTable(query);
+        //}
     }
     
     public void addUser(String playerName, String websiteUser)
@@ -54,7 +55,7 @@ public class OKBInternalDB
 							result = true;
 						}
 					}
-				
+					rs.close();
 	    	}
 		}
     	catch (SQLException e)
@@ -64,8 +65,48 @@ public class OKBInternalDB
     	return result;
     }
     
-    public boolean deleteUser(String playerName)
+    public void deleteUser(String playerName)
     {
-    	ResultSet
+    	db.query("DELETE FROM players WHERE player='" + playerName + "'");
+    }
+    
+    public void banUser(String playerName, String reason)
+    {
+    	db.query("INSERT INTO bans(player,reason) VALUES('" + playerName + "', '" + reason + "'");
+    }
+    
+    public boolean isBannedUser(String playerName)
+    {
+    	boolean result = false;
+    	try
+    	{
+    		ResultSet rs = db.query("SELECT * FROM bans WHERE player='" + playerName + "'");
+    		if (rs != null)
+    		{
+    			if (rs.next())
+    			{
+    				if (rs.getString("player").equals(playerName))
+    				{
+    					result = true;
+    				}
+    			}
+    			rs.close();
+    		}
+    	}
+    	catch (SQLException e)
+    	{
+    		e.printStackTrace();
+    	}
+    	return result;
+    }
+    
+    public void unbanUser(String playerName)
+    {
+    	db.query("DELETE FROM bans WHERE player='" + playerName + "'");
+    }
+    
+    public void close()
+    {
+    	db.close();
     }
 }

@@ -1,4 +1,4 @@
-package me.kalmanolah.okb3.commands;
+package com.greatmancode.okb3.commands;
 
 import org.bukkit.ChatColor;
 

@@ -1,4 +1,4 @@
-package me.kalmanolah.forumlistener;
+package com.greatmancode.okb3.forumlistener;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package me.kalmanolah.okb3.commands;
+package com.greatmancode.okb3.commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

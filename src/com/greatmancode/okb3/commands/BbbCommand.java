@@ -1,6 +1,6 @@
-package me.kalmanolah.okb3.commands;
+package com.greatmancode.okb3.commands;
 
-import me.kalmanolah.okb3.OKmain;
+import com.greatmancode.okb3.OKB;
 
 public class BbbCommand extends BaseCommand
 {
@@ -15,7 +15,7 @@ public class BbbCommand extends BaseCommand
     
     public void perform()
     {
-        for (BaseCommand OKBCommand : OKmain.p.commands)
+        for (BaseCommand OKBCommand : OKB.p.commands)
         {
             if (OKBCommand.hasPermission(sender))
             {
