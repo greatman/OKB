@@ -14,7 +14,7 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginLoader;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,7 +38,7 @@ public class OKB extends JavaPlugin
         name = this.getDescription().getName();
         version = this.getDescription().getVersion();
         authors = this.getDescription().getAuthors();
-        PluginLoader pm = this.getPluginLoader();
+        PluginManager pm = this.getServer().getPluginManager();
         if (!setupPermissions())
         {
             OKLogger.info("Permissions plugin not found, shutting down...");
@@ -115,6 +115,10 @@ public class OKB extends JavaPlugin
             {
                 e.printStackTrace();
             }
+            
+            //Load events
+         
+            pm.registerEvents(new OKBEvents(), this);
             setupCommands();
         }
              

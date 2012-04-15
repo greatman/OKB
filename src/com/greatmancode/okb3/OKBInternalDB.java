@@ -70,6 +70,33 @@ public class OKBInternalDB
     	db.query("DELETE FROM players WHERE player='" + playerName + "'");
     }
     
+    public String getUser(String playerName)
+    {
+        String user = "";
+        if (existUser(playerName))
+        {
+            try
+            {
+                ResultSet rs = db.query("SELECT * FROM players WHERE player='" + playerName + "'");
+                if (rs != null)
+                {
+                    if (rs.next())
+                    {
+                        user = rs.getString("user");
+                    }
+                    rs.close();
+                }
+                
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            
+        }
+        return user;
+    }
+    
     public void banUser(String playerName, String reason)
     {
     	db.query("INSERT INTO bans(player,reason) VALUES('" + playerName + "', '" + reason + "'");
@@ -104,7 +131,32 @@ public class OKBInternalDB
     {
     	db.query("DELETE FROM bans WHERE player='" + playerName + "'");
     }
-    
+    public String getBanReason(String playerName)
+    {
+        String reason = "";
+        if (isBannedUser(playerName))
+        {
+            try
+            {
+                ResultSet rs = db.query("SELECT * FROM bans WHERE player='" + playerName + "'");
+                if (rs != null)
+                {
+                    if (rs.next())
+                    {
+                        reason = rs.getString("reason");
+                    }
+                    rs.close();
+                }
+                
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            
+        }
+        return reason;
+    }
     public void close()
     {
     	db.close();
