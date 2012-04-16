@@ -25,7 +25,6 @@ group-mapping:
 extras:
   whitelist:
     kick-message: This is the message a user will see if their group isn't whitelisted.
-    use-as-blacklist: 'false'
     groups:
       '1': 'true'
       '2': 'false'

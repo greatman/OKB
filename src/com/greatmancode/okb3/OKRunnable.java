@@ -38,14 +38,14 @@ public class OKRunnable implements Runnable
                         
                         while(iterator.hasNext())
                         {
-                            if (OKConfig.whiteListID.contains(iterator.next()))
+                            if (OKConfig.whitelist.contains(iterator.next()))
                             {
                                 isWhitelist = true;
                             }
                         }
                         if (!isWhitelist)
                         {
-                            thePlayer.kickPlayer("You are not whitelisted!");
+                            thePlayer.kickPlayer(OKConfig.whitelistKickMsg);;
                         }
                     }
                     else
