@@ -19,8 +19,7 @@ group-mapping:
   default:
     1: ExampleGroup1
     2: ExampleGroup2
-  worlds:
-    exampleworld1:
+  exampleworld1:
       '1': ExampleGroup1
       '2': ExampleGroup2
 extras:

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,6 +32,9 @@ public class OKB extends JavaPlugin
     public List<BaseCommand> commands = new ArrayList<BaseCommand>();
     public static OKB p;
     public static Permission perms;
+    
+    //hashmap for player sync. Key is player name and entry is the account name.
+    public static HashMap<String, String> playerList = new HashMap<String, String>();
     
     public void onEnable()
     {

@@ -2,8 +2,8 @@ package com.greatmancode.okb3.commands;
 
 import org.bukkit.ChatColor;
 
-import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKmain;
+import com.greatmancode.okb3.OKB;
+import com.greatmancode.okb3.OKFunctions;
 
 public class SyncCommand extends BaseCommand
 {
@@ -17,9 +17,12 @@ public class SyncCommand extends BaseCommand
 	
 	public void perform()
 	{
-        if (OKmain.sync.accountExist(this.parameters.get(0), this.parameters.get(1)))
+        if (OKFunctions.accountExist(this.parameters.get(0), this.parameters.get(1)))
         {
-            OKFunctions.updateSecure(sender, player, player.getName(), this.parameters.get(0), this.parameters.get(1), false);
+            OKB.OKBDb.addUser(player.getName(), this.parameters.get(0));
+            OKB.playerList.put(player.getName(), this.parameters.get(0));
+            OKFunctions.syncPlayer(player.getName(), player.getWorld().getName());
+            sendMessage("You are now synced with your website account! Each time you connect your group will be automaticly imported.");
         }
         else
         {

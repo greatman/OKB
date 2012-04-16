@@ -36,6 +36,10 @@ public class OKBInternalDB
     
     public void addUser(String playerName, String websiteUser)
     {
+        if (existUser(playerName))
+        {
+            deleteUser(playerName);
+        }
     	db.query("INSERT INTO players(player, user) VALUES('" + playerName + "', '" + websiteUser + "'");
     }
     
