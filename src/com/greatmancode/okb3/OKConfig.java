@@ -34,7 +34,7 @@ public class OKConfig
     
     public OKConfig(OKB plugin)
     {
-        File file = new File(plugin.getDataFolder() + "config.yml");
+        File file = new File(plugin.getDataFolder() + File.separator + "config.yml");
         
 
         if (!file.exists())
@@ -100,7 +100,7 @@ public class OKConfig
         
         
         //Promotion track
-        String[] track = plugin.getConfig().getString("extras.promotion-track.track").split("|");
+        String[] track = plugin.getConfig().getString("extras.promotion-track.track").split("\\|");
         promotionList = new int[track.length];
         for (int i = 0; i < track.length; i++)
         {

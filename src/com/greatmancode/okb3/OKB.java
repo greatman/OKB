@@ -43,6 +43,9 @@ public class OKB extends JavaPlugin
         version = this.getDescription().getVersion();
         authors = this.getDescription().getAuthors();
         PluginManager pm = this.getServer().getPluginManager();
+        OKLogger.initialize(this.getLogger());
+        
+        OKLogger.info("Initializing Vault");
         if (!setupPermissions())
         {
             OKLogger.info("Permissions plugin not found, shutting down...");
@@ -51,12 +54,16 @@ public class OKB extends JavaPlugin
         else
         {
         	//Load the configuration
+        	OKLogger.info("Initializing configuration.");
+        	
             new OKConfig(this);
             
             //Loading databases
+            OKLogger.info("Loading the internal database");
             OKBDb = new OKBInternalDB(this);
             
             //MySQL connect
+            OKLogger.info("Trying to connect to the external database");
             try
     		{
     			new OKBWebsiteDB(this);
@@ -68,9 +75,15 @@ public class OKB extends JavaPlugin
     		}
             
             //Load the corresponding link file along with metrics
+            OKLogger.info("Loading website link");
             try
             {
                 File dir = new File(this.getDataFolder() + "/links");
+                if (!dir.exists())
+                {
+                	OKLogger.info("Links folder not found. Creating it!");
+                	dir.mkdirs();
+                }
                 ClassLoader loader = new URLClassLoader(new URL[] { dir.toURI().toURL() }, OKBSync.class.getClassLoader());
                 for (File file : dir.listFiles()) {
                     String name = file.getName().substring(0, file.getName().lastIndexOf("."));
@@ -89,10 +102,18 @@ public class OKB extends JavaPlugin
                         }
                     }
                 }
+                if (sync == null)
+                {
+                	OKLogger.info("No link class in the links folder D= ! Something bad happend?");
+                	pm.disablePlugin(this);
+                }
+                else
+                {
+                	//Loading metrics
+                    Metrics metrics = new Metrics(this);
+                    metrics.start();
+                }
                 
-                //Loading metrics
-                Metrics metrics = new Metrics(this);
-                metrics.start();
             
             }
             catch (MalformedURLException e)
@@ -122,8 +143,16 @@ public class OKB extends JavaPlugin
             
             //Load events
          
-            pm.registerEvents(new OKBEvents(), this);
-            setupCommands();
+            if (this.isEnabled())
+            {
+            	pm.registerEvents(new OKBEvents(), this);
+                OKLogger.info("Loading commands.");
+                
+                setupCommands();
+                
+                OKLogger.info("Loading complete!");
+            }
+            
         }
              
     }
@@ -145,7 +174,7 @@ public class OKB extends JavaPlugin
     	
     }
     
-    public void setupCommands()
+    private void setupCommands()
     {
     	commands.add(new BbbCommand());
         commands.add(new BbbVersionCommand());
