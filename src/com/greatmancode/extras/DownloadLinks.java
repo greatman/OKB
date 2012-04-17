@@ -8,23 +8,24 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+
+import com.greatmancode.okb3.OKLogger;
 
 public class DownloadLinks
 {
-	public DownloadLinks(File folder)
+	public static void download(File folder)
 	{
 		URL url; //represents the location of the file we want to dl.
         URLConnection con;  // represents a connection to the url we want to dl.
         DataInputStream dis;  // input stream that will read data from the file.
         byte[] fileData;  //byte aray used to hold data from downloaded file.
         try {
-            url = new URL("http://icanhascheezburger.files.wordpress.com/2010/06/funny-pictures-cat-is-creepy.jpg");
+            url = new URL("https://github.com/greatman/OKB/raw/rewrite/forumlistener.zip");
             con = url.openConnection(); // open the url connection.
             dis = new DataInputStream(con.getInputStream()); // get a data stream from the url connection.
+            OKLogger.info(con.getContentLength() + "");
             fileData = new byte[con.getContentLength()]; // determine how many byes the file size is and make array big enough to hold the data
             for (int x = 0; x < fileData.length; x++) { // fill byte array with bytes from the data input stream
                 fileData[x] = dis.readByte();
@@ -54,7 +55,7 @@ public class DownloadLinks
                 }
                 
                 fileoutputstream = new FileOutputStream(
-                		folder.getPath() + entryName);             
+                		folder.getPath() + File.separator + entryName);             
                 byte[] buf = new byte[1024];
                 while ((n = zipinputstream.read(buf, 0, 1024)) > -1)
                     fileoutputstream.write(buf, 0, n);

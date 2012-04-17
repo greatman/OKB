@@ -1,5 +1,3 @@
-package com.greatmancode.okb3.forumlistener;
-
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

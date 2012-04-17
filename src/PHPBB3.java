@@ -1,6 +1,3 @@
-package com.greatmancode.okb3.forumlistener;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

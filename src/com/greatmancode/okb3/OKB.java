@@ -19,6 +19,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.greatmancode.extras.DownloadLinks;
 import com.greatmancode.extras.Metrics;
 import com.greatmancode.okb3.commands.*;
 
@@ -74,72 +75,77 @@ public class OKB extends JavaPlugin
     			pm.disablePlugin(this);
     		}
             
-            //Load the corresponding link file along with metrics
-            OKLogger.info("Loading website link");
-            try
+            if (this.isEnabled())
             {
-                File dir = new File(this.getDataFolder() + "/links");
-                if (!dir.exists())
+            	 //Load the corresponding link file along with metrics
+                OKLogger.info("Loading website link");
+                try
                 {
-                	OKLogger.info("Links folder not found. Creating it!");
-                	dir.mkdirs();
-                }
-                ClassLoader loader = new URLClassLoader(new URL[] { dir.toURI().toURL() }, OKBSync.class.getClassLoader());
-                for (File file : dir.listFiles()) {
-                    String name = file.getName().substring(0, file.getName().lastIndexOf("."));
-                    if (name.toLowerCase() == OKConfig.linkName.toLowerCase())
+                    File dir = new File(this.getDataFolder() + "/links");
+                    if (!dir.exists())
                     {
-                        Class<?> clazz = loader.loadClass(name);
-                        Object object = clazz.newInstance();
-                        if (object instanceof OKBSync) {
-                            sync = (OKBSync) object;
-                            OKLogger.info("Website link " + name + " loaded!");
-                        }
-                        else
+                    	OKLogger.info("Links folder not found. Creating it!");
+                    	dir.mkdirs();
+                    	DownloadLinks.download(dir);
+                    }
+                    ClassLoader loader = new URLClassLoader(new URL[] { dir.toURI().toURL() }, OKBSync.class.getClassLoader());
+                    for (File file : dir.listFiles()) {
+                        String name = file.getName().substring(0, file.getName().lastIndexOf("."));
+                        if (name.toLowerCase().equals(OKConfig.linkName.toLowerCase()))
                         {
-                            OKLogger.error("Website link " + name + " not found. Be sure it is located in the plugins/OKB3/links folder!");
-                            pm.disablePlugin(this);
+                            Class<?> clazz = loader.loadClass(name);
+                            Object object = clazz.newInstance();
+                            if (object instanceof OKBSync) {
+                                sync = (OKBSync) object;
+                                OKLogger.info("Website link " + name + " loaded!");
+                            }
+                            else
+                            {
+                                OKLogger.error("The class file for " + name + " looks invalid. Is it downloaded correctly?");
+                                pm.disablePlugin(this);
+                            }
                         }
                     }
-                }
-                if (sync == null)
-                {
-                	OKLogger.info("No link class in the links folder D= ! Something bad happend?");
-                	pm.disablePlugin(this);
-                }
-                else
-                {
-                	//Loading metrics
-                    Metrics metrics = new Metrics(this);
-                    metrics.start();
-                }
+                    if (sync == null)
+                    {
+                    	OKLogger.error("Website link " + name + " not found. Be sure it is located in the plugins/OKB3/links folder!");
+                        pm.disablePlugin(this);
+                    }
+                    else
+                    {
+                    	//Loading metrics
+                        Metrics metrics = new Metrics(this);
+                        metrics.start();
+                    }
+                    
                 
-            
+                }
+                catch (MalformedURLException e)
+                {
+                    OKLogger.info("A error occured while loading the forum link class. Error code 1.");
+                    pm.disablePlugin(this);
+                }
+                catch (InstantiationException e)
+                {
+                    OKLogger.info("A error occured while loading the forum link class. Error code 2");
+                    pm.disablePlugin(this);
+                }
+                catch (IllegalAccessException e)
+                {
+                    OKLogger.info("A error occured while loading the forum link class. Error code 3");
+                    pm.disablePlugin(this);
+                }
+                catch (ClassNotFoundException e1)
+                {
+                    OKLogger.info("Forum link class not found, shutting down.... Check if the configuration.forum configuration node is configurated correctly.");
+                    pm.disablePlugin(this);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (MalformedURLException e)
-            {
-                OKLogger.info("A error occured while loading the forum link class. Error code 1.");
-                pm.disablePlugin(this);
-            }
-            catch (InstantiationException e)
-            {
-                OKLogger.info("A error occured while loading the forum link class. Error code 2");
-                pm.disablePlugin(this);
-            }
-            catch (IllegalAccessException e)
-            {
-                OKLogger.info("A error occured while loading the forum link class. Error code 3");
-                pm.disablePlugin(this);
-            }
-            catch (ClassNotFoundException e1)
-            {
-                OKLogger.info("Forum link class not found, shutting down.... Check if the configuration.forum configuration node is configurated correctly.");
-                pm.disablePlugin(this);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+           
             
             //Load events
          
