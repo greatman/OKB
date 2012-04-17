@@ -37,6 +37,14 @@ public class OKFunctions
         
     }
 
+    
+    public static void setPlayerRank(String playerName, int rankID)
+    {
+    	if (hasAccount(playerName))
+    	{
+    		OKB.sync.changeRank(OKB.OKBDb.getUser(playerName), rankID);
+    	}
+    }
     /**
      * Sync a player
      * @param playerName The player name

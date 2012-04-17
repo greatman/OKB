@@ -11,8 +11,8 @@ public class SyncCommand extends BaseCommand
 	{
 		this.command.add("sync");
 		this.helpDescription = "Sync your account with the forum";
-		this.requiredParameters.add("Username");
-		this.requiredParameters.add("Password");
+		this.requiredParameters.add("Website Username");
+		this.requiredParameters.add("Website Password");
 	}
 	
 	public void perform()
@@ -27,6 +27,8 @@ public class SyncCommand extends BaseCommand
         else
         {
             sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Incorrect username or password.");
+            sendMessage(ChatColor.DARK_AQUA + "[Website Username] " + ChatColor.WHITE + "is your username on the website/forum");
+            sendMessage(ChatColor.DARK_AQUA + "[Website Password] " + ChatColor.WHITE + "is your website/forum password.");
         }
 	}
 

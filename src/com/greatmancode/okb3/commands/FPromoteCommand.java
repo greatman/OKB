@@ -1,19 +1,13 @@
 package com.greatmancode.okb3.commands;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
-import me.kalmanolah.okb3.OKConfig;
-import me.kalmanolah.okb3.OKDB;
-import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKmain;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import com.greatmancode.okb3.OKConfig;
+import com.greatmancode.okb3.OKFunctions;
 
 public class FPromoteCommand extends BaseCommand
 {
@@ -26,71 +20,59 @@ public class FPromoteCommand extends BaseCommand
 		this.senderMustBePlayer = false;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void perform()
 	{
-		
-		String name = this.parameters.get(0);
-		String user = null;
-		List<Integer> rank = new ArrayList<Integer>();
-		ResultSet test = null;
-		if (Bukkit.getPlayer(name) != null)
-		{
-			test = OKDB.dbm.query("SELECT user FROM players WHERE player = '" + name + "'");
-			try {
-				if (test.next()) {
-					do {
-						user = test.getString("user");
-					} while (test.next());
-				}
-				test.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			if (user != null) {
-				rank = OKmain.sync.getGroup(user);
-			}
-			List<Integer> track = (List<Integer>) OKFunctions.getConfig("track.track");
-			if (rank.size() >= 1) {
-				Iterator<Integer> rankit = track.iterator();
-				int counter = 0;
-				int highest = -1;
-				while (rankit.hasNext()) 
+    	if (!OKConfig.useSecondaryGroups)
+    	{
+    		Player player = Bukkit.getPlayer(this.parameters.get(0));
+			if (player != null || OKFunctions.hasAccount(this.parameters.get(0)))
+    		{
+				String playerName = this.parameters.get(0);
+				if (player != null)
 				{
-					if (rank.contains(rankit.next())) 
-					{
-						highest = counter;
-					}
-					counter++;
+					playerName = player.getName();
 				}
-				if (highest == -1) 
-				{
-					sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "No promotion tracks found.");
-				} 
-				else 
-				{
-					if (track.size() < (highest + 1))
-					{
-						OKmain.sync.changeRank(name, track.get(highest + 1));
-						OKmain.p.changeGroup(name, rank, "nope", true);
-						sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' was promoted to '" + ChatColor.WHITE + ((HashMap<Integer,String>) OKConfig.config.get("groups")).get(track.get(highest + 1)) + ChatColor.GRAY + "'.");
-					}
-					else
-					{
-						sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "You can't promote this player any more.");
-					}
-					
-				}
-			}
-			else
-			{
-				sendMessage(ChatColor.RED + "Error: User never synced.");
-			}
-		}
-		else
-		{
-			sendMessage(ChatColor.RED + "Error: User not found");
-		}
-        
+    			List<Integer> groupList = OKFunctions.getGroupList(playerName);
+    			int position = -1;
+    			
+    			for (int i = 0; i < OKConfig.promotionList.length; i++)
+    			{
+    				if (groupList.get(0) == OKConfig.promotionList[i])
+    				{
+    					position = i;
+    				}
+    			}
+    			
+    			if (position != -1)
+    			{
+    				if (position != (OKConfig.promotionList.length - 1))
+    				{
+    					OKFunctions.setPlayerRank(playerName, OKConfig.promotionList[position + 1]);
+    					String rank = OKConfig.promotionList[position + 1] + "";
+    					if (OKConfig.rankIdentifier.containsKey(OKConfig.promotionList[position + 1]))
+    					{
+    						rank = OKConfig.rankIdentifier.get(OKConfig.promotionList[position + 1]);
+    					}
+    					sendMessage(ChatColor.GREEN + "User promoted to rank " + rank + "!");
+    				}
+    				else
+    				{
+    					sendMessage(ChatColor.RED + "Unable to promote the player, he is already at the highest rank!");
+    				}
+    			}
+    			else
+    			{
+    				sendMessage(ChatColor.RED + "Unable to promote the player, the forum rank is not in the promotion track!");
+    			}
+    		}
+    		else
+    		{
+    			sendMessage(ChatColor.RED + "Unable to promote the player, he didin't sync!");
+    		}
+    	}
+    	else
+    	{
+    		sendMessage(ChatColor.RED + "Promotion is not currently compatible with multi-group enabled.");
+    	}
 	}
 }

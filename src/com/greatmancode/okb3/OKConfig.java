@@ -22,9 +22,13 @@ public class OKConfig
     public static boolean   isWhitelist = false,
                             useSecondaryGroups = false;
     
+    public static int[]	promotionList;
+    
     public static HashMap<String, HashMap<Integer, String>> groupList = null;
     
     public static List<Integer> whitelist = null;
+    
+    public static HashMap<Integer, String> rankIdentifier = null;
     
     public OKConfig(OKB plugin)
     {
@@ -89,5 +93,24 @@ public class OKConfig
         
         
         //TODO: Post count, promotion-track
+        
+        
+        //Promotion track
+        String[] track = plugin.getConfig().getString("extras.promotion-track.track").split("|");
+        promotionList = new int[track.length];
+        for (int i = 0; i < track.length; i++)
+        {
+        	promotionList[i] = Integer.parseInt(track[i]);
+        }
+        
+        //Rank identifier
+        typeList = plugin.getConfig().getStringList("extras.rank-changing.identifiers");
+        iterator = typeList.iterator();
+        while(iterator.hasNext())
+        {
+        	int id = Integer.parseInt(iterator.next());
+        	
+        	rankIdentifier.put(id, "extras.rank-chaning.identifiers." + id);
+        }
     }
 }
