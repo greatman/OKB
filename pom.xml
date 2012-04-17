@@ -45,6 +45,12 @@
 					<include>plugin.yml</include>
 					<include>config.yml</include>
 				</includes>
+				<excludes>
+				    <exclude>IPB.java</exclude>
+				    <exclude>PHPBB3.java</exclude>
+				    <exclude>SMF.java</exclude>
+				    <exclude>XenForo.java</exclude>
+				</excludes>
 			</resource>
 		</resources>
 		<plugins>
