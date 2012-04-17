@@ -35,7 +35,7 @@ public class FsyncCommand extends BaseCommand
 	    }
 		else
 		{
-			sendMessage(ChatColor.RED + "Unable to promote the player, the forum rank is not in the promotion track!");
+			sendMessage(ChatColor.RED + "No online player found or he didin't sync!");
 		}
     }
 }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 public class OKFunctions
 {
     public static boolean accountExist(String username, String password)
@@ -31,12 +34,30 @@ public class OKFunctions
         return OKB.OKBDb.existUser(playerName); 
     }
     
-    //TODO: THIS FUNCTION
     public static void banUser(String playerName, String reason)
     {
-        
+    	if (OKB.OKBDb.existUser(playerName))
+    	{
+    		OKB.OKBDb.banUser(playerName, reason);
+    		OKB.sync.changeRank(OKB.OKBDb.getUser(playerName), OKConfig.bannedGroupID);
+    		
+    		Player p = Bukkit.getPlayer(playerName);
+    		
+    		if (p != null)
+    		{
+    			p.kickPlayer(OKConfig.bannedMsg + " : " + reason);
+    		}
+    	}
     }
 
+    public static void unbanUser(String playerName)
+    {
+    	if (OKB.OKBDb.existUser(playerName) && OKB.OKBDb.isBannedUser(playerName))
+    	{
+    		OKB.OKBDb.unbanUser(playerName);
+    		OKB.sync.changeRank(OKB.OKBDb.getUser(playerName), OKConfig.unbannedGroupID);
+    	}
+    }
     
     public static void setPlayerRank(String playerName, int rankID)
     {

@@ -1,9 +1,7 @@
 general:
   enable-whitelist: 'false'
   enable-nickname-syncing: 'false'
-  enable-synced-banning: 'false'
   enable-promotion-track: 'false'
-  enable-rank-changing: 'false'
   enable-post-count-rewarding: 'false'
 configuration:
   forum: phpbb

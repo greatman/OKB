@@ -67,7 +67,7 @@ public class OKRunnable implements Runnable
             }
             else
             {
-                thePlayer.kickPlayer("You are banned! : " + OKB.OKBDb.getBanReason(thePlayer.getName()));
+                thePlayer.kickPlayer(OKConfig.bannedMsg + " : " + OKB.OKBDb.getBanReason(thePlayer.getName()));
             }
         }
     }

@@ -85,7 +85,7 @@ public class FRankCommand extends BaseCommand
     		}
     		else
     		{
-    			sendMessage(ChatColor.RED + "Unable to demote the player, he didin't sync or isin't online!");
+    			sendMessage(ChatColor.RED + "Unable to change the rank of the player, he didin't sync or isin't online!");
     		}
     	}
     	else

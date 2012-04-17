@@ -15,9 +15,11 @@ public class OKConfig
     						databasePassword = "", 
     						databaseDB = "", 
     						databasePort = "",
-    						whitelistKickMsg = "";
+    						whitelistKickMsg = "",
+    						bannedMsg = "";
     
-    public static int		bannedGroupID;
+    public static int		bannedGroupID,
+    						unbannedGroupID;
     
     public static boolean   isWhitelist = false,
                             useSecondaryGroups = false;
@@ -77,6 +79,7 @@ public class OKConfig
         }
         
         //Whitelist manager
+        isWhitelist = plugin.getConfig().getBoolean("general.enable-whitelist");
         whitelist = new ArrayList<Integer>();
         whitelistKickMsg = plugin.getConfig().getString("extras.whitelist.kick-message");
         
@@ -90,9 +93,10 @@ public class OKConfig
         
         //Ban feature
         bannedGroupID = plugin.getConfig().getInt("extras.synced-banning.banned-user-forum-rank-id");
+        unbannedGroupID = plugin.getConfig().getInt("extras.synced-banning.unbanned-user-forum-rank-id");
+        bannedMsg = plugin.getConfig().getString("extras.synced-banning.ban-message");
         
-        
-        //TODO: Post count, promotion-track
+        //TODO: Post count
         
         
         //Promotion track
