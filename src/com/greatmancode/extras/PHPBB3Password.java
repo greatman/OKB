@@ -1,4 +1,4 @@
-package me.kalmanolah.extras;
+package com.greatmancode.extras;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;

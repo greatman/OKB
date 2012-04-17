@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.greatmancode.extras.Tools;
 import com.greatmancode.okb3.OKBSync;
-
-import me.kalmanolah.extras.Tools;
-import me.kalmanolah.okb3.OKConfig;
-import me.kalmanolah.okb3.OKDatabase;
+import com.greatmancode.okb3.OKBWebsiteDB;
+import com.greatmancode.okb3.OKConfig;
 
 public class SMF implements OKBSync
 {
@@ -22,7 +21,7 @@ public class SMF implements OKBSync
         boolean exist = false;
         try
         {
-            PreparedStatement query = OKDatabase.dbm.prepare("SELECT passwd FROM " + OKConfig.config.get("db.prefix") + "members WHERE member_name='" + username + "'");
+            PreparedStatement query = OKBWebsiteDB.dbm.prepare("SELECT passwd FROM " + OKConfig.tablePrefix + "members WHERE member_name='" + username + "'");
             ResultSet result = query.executeQuery();
             if (result != null)
             {
@@ -52,7 +51,7 @@ public class SMF implements OKBSync
     {
         try
         {
-            OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "members SET id_group=" + forumGroupId + " WHERE member_name='" + username + "'").executeUpdate();
+            OKBWebsiteDB.dbm.prepare("UPDATE " + OKConfig.tablePrefix + "members SET id_group=" + forumGroupId + " WHERE member_name='" + username + "'").executeUpdate();
         }
         catch (SQLException e)
         {
@@ -81,7 +80,7 @@ public class SMF implements OKBSync
         List<Integer> list = new ArrayList<Integer>();
         try
         {
-            ResultSet result = OKDatabase.dbm.prepare("SELECT id_group FROM " + OKConfig.config.get("db.prefix") + "members WHERE member_name='" + username + "'").executeQuery();
+            ResultSet result = OKBWebsiteDB.dbm.prepare("SELECT id_group FROM " + OKConfig.tablePrefix + "members WHERE member_name='" + username + "'").executeQuery();
             if (result != null)
             {
                 if (result.next())

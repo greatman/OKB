@@ -3,8 +3,6 @@ package com.greatmancode.okb3;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import me.kalmanolah.okb3.OKmain;
-
 public class OKLogger
 {
     private static Logger log;
@@ -13,7 +11,7 @@ public class OKLogger
     public static void initialize(Logger newLog)
     {
         OKLogger.log = newLog;
-        prefix = "[" + OKmain.name + "] ";
+        prefix = "[" + OKB.name + "] ";
     }
 
     public static Logger getLog()

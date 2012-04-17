@@ -1,4 +1,4 @@
-package me.kalmanolah.extras;
+package com.greatmancode.extras;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

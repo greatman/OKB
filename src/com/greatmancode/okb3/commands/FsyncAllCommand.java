@@ -1,14 +1,9 @@
 package com.greatmancode.okb3.commands;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import me.kalmanolah.okb3.OKDB;
-import me.kalmanolah.okb3.OKFunctions;
-import me.kalmanolah.okb3.OKmain;
-
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.greatmancode.okb3.OKB;
+import com.greatmancode.okb3.OKFunctions;
 
 public class FsyncAllCommand extends BaseCommand
 {
@@ -23,40 +18,15 @@ public class FsyncAllCommand extends BaseCommand
 
     public void perform()
     {
-        Player[] players = OKmain.p.getServer().getOnlinePlayers();
+        Player[] players = OKB.p.getServer().getOnlinePlayers();
         for (Player p : players)
         {
-            String name = p.getName();
-            String user = null;
-            String pass = null;
-            ResultSet test = null;
-            test = OKDB.dbm.query("SELECT user,encpass FROM players WHERE player = '" + name + "'");
-            try
-            {
-                if (test.next())
-                {
-                    do
-                    {
-                        user = test.getString("user");
-                        pass = test.getString("encpass");
-                    }
-                    while (test.next());
-                }
-                test.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-            if (user == null)
-            {
-                sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Player '" + ChatColor.WHITE + name + ChatColor.GRAY + "' has no saved login details.");
-            }
-            else
-            {
-                OKFunctions.updateSecure(sender, p, name, user, pass, true);
-            }
+        	if (OKFunctions.hasAccount(p.getName()))
+        	{
+        		OKFunctions.syncPlayer(p.getName(), p.getWorld().getName());
+        	}
         }
+        sendMessage("All players with saved accounts has been synced!");
     }
 
 }

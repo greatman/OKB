@@ -3,11 +3,12 @@ package com.greatmancode.okb3.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kalmanolah.extras.TextUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.greatmancode.extras.TextUtil;
 
 public class BaseCommand
 {

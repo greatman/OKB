@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.greatmancode.extras.Tools;
 import com.greatmancode.okb3.OKBSync;
 import com.greatmancode.okb3.OKBWebsiteDB;
+import com.greatmancode.okb3.OKConfig;
 
-import me.kalmanolah.extras.Tools;
-import me.kalmanolah.okb3.OKConfig;
 
 public class IPB implements OKBSync
 {
@@ -27,7 +27,7 @@ public class IPB implements OKBSync
 		String encpass = "nope";
 		try
         {
-            ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT members_pass_hash,members_pass_salt FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'").executeQuery();
+            ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT members_pass_hash,members_pass_salt FROM " + OKConfig.tablePrefix + "members WHERE members_l_username = '" + username + "'").executeQuery();
             if (rs.next())
             {
                 do
@@ -58,7 +58,7 @@ public class IPB implements OKBSync
 	{
 		try
         {
-            OKBWebsiteDB.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "members SET member_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'").executeUpdate();
+            OKBWebsiteDB.dbm.prepare("UPDATE " + OKConfig.tablePrefix + "members SET member_group_id=" + forumGroupId + " WHERE members_l_username = '" + username + "'").executeUpdate();
         }
         catch (SQLException e)
         {
@@ -87,7 +87,7 @@ public class IPB implements OKBSync
 		List<Integer> group = new ArrayList<Integer>();
 		try
 		{
-			ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT member_group_id FROM " + OKConfig.config.get("db.prefix") + "members WHERE members_l_username = '" + username + "'").executeQuery();
+			ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT member_group_id FROM " + OKConfig.tablePrefix + "members WHERE members_l_username = '" + username + "'").executeQuery();
 			if (rs.next())
 			{
 				do

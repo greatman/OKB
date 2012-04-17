@@ -8,11 +8,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.greatmancode.extras.PHPBB3Password;
 import com.greatmancode.okb3.OKBSync;
-
-import me.kalmanolah.extras.PHPBB3Password;
-import me.kalmanolah.okb3.OKConfig;
-import me.kalmanolah.okb3.OKDatabase;
+import com.greatmancode.okb3.OKBWebsiteDB;
+import com.greatmancode.okb3.OKConfig;
 
 public class PHPBB3 implements OKBSync
 {
@@ -22,7 +21,7 @@ public class PHPBB3 implements OKBSync
         PHPBB3Password phpbb = new PHPBB3Password();
         try
         {
-            PreparedStatement query = OKDatabase.dbm.prepare("SELECT user_password FROM " + OKConfig.config.get("db.prefix") + "users WHERE username='" + username + "'");
+            PreparedStatement query = OKBWebsiteDB.dbm.prepare("SELECT user_password FROM " + OKConfig.tablePrefix + "users WHERE username='" + username + "'");
             ResultSet result = query.executeQuery();
             if (result != null)
             {
@@ -49,7 +48,7 @@ public class PHPBB3 implements OKBSync
     {
         try
         {
-            OKDatabase.dbm.prepare("UPDATE " + OKConfig.config.get("db.prefix") + "users SET group_id=" + forumGroupId + " WHERE username='" + username + "'").executeUpdate(); 
+            OKBWebsiteDB.dbm.prepare("UPDATE " + OKConfig.tablePrefix + "users SET group_id=" + forumGroupId + " WHERE username='" + username + "'").executeUpdate(); 
            
         }
         catch (SQLException e)
@@ -81,13 +80,13 @@ public class PHPBB3 implements OKBSync
         
         try
         {
-            if (((Boolean) OKConfig.config.get("use.secondary.group")).booleanValue() == true)
+            if (OKConfig.useSecondaryGroups)
             {
-                query = OKDatabase.dbm.prepare("SELECT group_id FROM " + OKConfig.config.get("db.prefix") + "user_group WHERE " + OKConfig.config.get("db.prefix") + "users.username=." + username + "' && " + OKConfig.config.get("db.prefix") + "users.user_id = " + OKConfig.config.get("db.prefix") + "user_group.user_id && " + OKConfig.config.get("db.prefix") + "user_group.user_pending = 0");
+                query = OKBWebsiteDB.dbm.prepare("SELECT group_id FROM " + OKConfig.tablePrefix + "user_group WHERE " + OKConfig.tablePrefix + "users.username=." + username + "' && " + OKConfig.tablePrefix + "users.user_id = " + OKConfig.tablePrefix + "user_group.user_id && " + OKConfig.tablePrefix + "user_group.user_pending = 0");
             }
             else
             {
-                query = OKDatabase.dbm.prepare("SELECT group_id FROM " + OKConfig.config.get("db.prefix") + "users WHERE username='" + username + "'");
+                query = OKBWebsiteDB.dbm.prepare("SELECT group_id FROM " + OKConfig.tablePrefix + "users WHERE username='" + username + "'");
             }
             result = query.executeQuery();
             if (result != null)
