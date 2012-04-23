@@ -83,7 +83,6 @@ public class OKBInternalDB
             try
             {
                 ResultSet rs = db.query("SELECT * FROM players WHERE player='" + playerName + "'");
-                OKLogger.info(rs.toString());
                 if (rs != null)
                 {
                     if (rs.next())

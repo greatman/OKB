@@ -74,30 +74,36 @@ public class OKFunctions
      */
     public static boolean syncPlayer(String playerName, String worldName)
     {
-        // TODO Auto-generated method stub
         if (!OKConfig.groupList.containsKey(worldName))
         {
             worldName = "default";
         }
         if (hasAccount(playerName))
         {
-            List<Integer> groupList = OKB.sync.getGroup(playerName);
+            List<Integer> groupList = OKB.sync.getGroup(OKB.OKBDb.getUser(playerName));
             Iterator<Integer> groupIterator = groupList.iterator();
-            
             //We reset groups
-            String[] permGroupList = OKB.perms.getPlayerGroups(worldName, OKB.p.getServer().getPlayer(playerName).getName());
+            String[] permGroupList = OKB.perms.getPlayerGroups(OKB.p.getServer().getPlayer(playerName));
             for (int i = 0; i < permGroupList.length; i++)
             {
-                OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName), permGroupList[i]);
+                if (worldName.equals("default"))
+                {
+                    OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName).getWorld(), OKB.p.getServer().getPlayer(playerName).getName(), permGroupList[i]);
+                }
+                else
+                {
+                    OKB.perms.playerRemoveGroup(worldName, OKB.p.getServer().getPlayer(playerName).getName(), permGroupList[i]);
+                }
             }
             HashMap<Integer, String> configurationGroup = OKConfig.groupList.get(worldName);
+            
             while (groupIterator.hasNext())
             {
                 String groupName = configurationGroup.get(groupIterator.next());
                 
                 if (groupName != null)
                 {
-                    if (worldName == "default")
+                    if (worldName.equals("default"))
                     {
                         OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);
                     }
