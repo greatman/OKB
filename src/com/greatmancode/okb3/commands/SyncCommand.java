@@ -20,7 +20,6 @@ public class SyncCommand extends BaseCommand
         if (OKFunctions.accountExist(this.parameters.get(0), this.parameters.get(1)))
         {
             OKB.OKBDb.addUser(player.getName(), this.parameters.get(0));
-            OKB.playerList.put(player.getName(), this.parameters.get(0));
             OKFunctions.syncPlayer(player.getName(), player.getWorld().getName());
             sendMessage("You are now synced with your website account! Each time you connect your group will be automaticly imported.");
         }

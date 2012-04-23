@@ -5,7 +5,7 @@ general:
   enable-post-count-rewarding: 'false'
 configuration:
   forum: phpbb
-  prefix: myforum_
+  prefix: 'myforum_'
   use-secondary-group: false
 mysql-connection:
   mysql-host: localhost

@@ -82,8 +82,7 @@ public class OKFunctions
         if (hasAccount(playerName))
         {
             List<Integer> groupList = OKB.sync.getGroup(playerName);
-            Iterator<Integer> iterator = groupList.iterator();
-            
+            Iterator<Integer> groupIterator = groupList.iterator();
             
             //We reset groups
             String[] permGroupList = OKB.perms.getPlayerGroups(worldName, OKB.p.getServer().getPlayer(playerName).getName());
@@ -91,14 +90,17 @@ public class OKFunctions
             {
                 OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName), permGroupList[i]);
             }
-            
+            OKLogger.info(worldName);
             HashMap<Integer, String> configurationGroup = OKConfig.groupList.get(worldName);
-            while (iterator.hasNext())
+            while (groupIterator.hasNext())
             {
-                String groupName = configurationGroup.get(iterator);
+            	OKLogger.info((configurationGroup == null) + "");
+            	OKLogger.info((groupIterator == null) + "");
+                String groupName = configurationGroup.get(groupIterator.next());
                 
                 if (groupName != null)
                 {
+                    OKLogger.info(groupName);
                     if (worldName == "default")
                     {
                         OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);

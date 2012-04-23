@@ -24,6 +24,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
+import com.greatmancode.okb3.OKLogger;
+
 public class SQLite extends Database {
 	public String location;
 	public String name;
@@ -37,7 +39,7 @@ public class SQLite extends Database {
 		if (this.name.contains("/") ||
 				this.name.contains("\\") ||
 				this.name.endsWith(".db")) {
-			this.writeError("The database name cannot contain: /, \\, or .db", true);
+			this.writeError("The database name can not contain: /, \\, or .db", true);
 		}
 		if (!folder.exists()) {
 			folder.mkdir();
@@ -52,7 +54,7 @@ public class SQLite extends Database {
 		  
 		  return true;
 		} catch (ClassNotFoundException e) {
-		  this.writeError("Class not found in initialize(): " + e, true);
+		  this.writeError("You need the SQLite library " + e, true);
 		  return false;
 		}
 	}
@@ -65,7 +67,7 @@ public class SQLite extends Database {
 					  	   sqlFile.getAbsolutePath());
 			  return this.connection;
 			} catch (SQLException e) {
-			  this.writeError("SQL exception in open(): " + e, true);
+			  this.writeError("SQLite exception on initialize " + e, true);
 			}
 		}
 		return null;
@@ -77,7 +79,7 @@ public class SQLite extends Database {
 			try {
 				connection.close();
 			} catch (SQLException ex) {
-				this.writeError("SQL exception in close(): " + ex, true);
+				this.writeError("Error on Connection close: " + ex, true);
 			}
 	}
 	
@@ -99,43 +101,26 @@ public class SQLite extends Database {
 	public ResultSet query(String query) {
 		Statement statement = null;
 		ResultSet result = null;
-		
+		OKLogger.info(query);
 		try {
 			connection = this.open();
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT date('now')");
 			
 			switch (this.getStatement(query)) {
 				case SELECT:
 					result = statement.executeQuery(query);
-					break;
-				
-			    case INSERT:
-			    case UPDATE:
-			    case DELETE:	
-			    case CREATE:
-			    case ALTER:
-			    case DROP:
-			    case TRUNCATE:
-			    case RENAME:
-			    case DO:
-			    case REPLACE:
-			    case LOAD:
-			    case HANDLER:
-			    case CALL:
-			    	this.lastUpdate = statement.executeUpdate(query);
-			    	break;
-				
-				default:
-					result = statement.executeQuery(query);
+					return result;
 					
+				default:
+					statement.executeQuery(query);
+					return result;	
 			}
-			return result;	
-		} catch (SQLException e) {
-			if (e.getMessage().toLowerCase().contains("locking") || e.getMessage().toLowerCase().contains("locked")) {
+		} catch (SQLException ex) {
+			if (ex.getMessage().toLowerCase().contains("locking") || ex.getMessage().toLowerCase().contains("locked")) {
 				return retry(query);
+				//this.writeError("",false);
 			} else {
-				this.writeError("SQL exception in query(): " + e.getMessage(), false);
+				this.writeError("Error at SQL Query: " + ex.getMessage(), false);
 			}
 			
 		}
@@ -151,7 +136,7 @@ public class SQLite extends Database {
 	        return ps;
 	    } catch(SQLException e) {
 	        if(!e.toString().contains("not return ResultSet"))
-	        	this.writeError("SQL exception in prepare(): " + e.getMessage(), false);
+	        	this.writeError("Error in SQL prepare() query: " + e.getMessage(), false);
 	    }
 	    return null;
 	}
@@ -161,7 +146,7 @@ public class SQLite extends Database {
 		Statement statement = null;
 		try {
 			if (query.equals("") || query == null) {
-				this.writeError("Parameter 'query' empty or null in createTable().", true);
+				this.writeError("SQL Create Table query empty.", true);
 				return false;
 			}
 			
@@ -196,7 +181,7 @@ public class SQLite extends Database {
 		String query = null;
 		try {
 			if (!this.checkTable(table)) {
-				this.writeError("Table \"" + table + "\" in wipeTable() does not exist.", true);
+				this.writeError("Error at Wipe Table: table, " + table + ", does not exist", true);
 				return false;
 			}
 			statement = connection.createStatement();
@@ -215,6 +200,34 @@ public class SQLite extends Database {
 	/*
 	 * <b>retry</b><br>
 	 * <br>
+	 * Retries a statement and does not return a ResultSet.
+	 * <br>
+	 * <br>
+	 * @param query The SQL query.
+	 */
+	/*public void retry(String query) {
+		//boolean passed = false;
+		Statement statement = null;
+		
+		//while (!passed) {
+		try {
+			statement = connection.createStatement();
+			statement.executeQuery(query);
+			//passed = true;
+		} catch (SQLException e) {
+			if (e.getMessage().toLowerCase().contains("locking") || e.getMessage().toLowerCase().contains("locked") ) {
+				this.writeError("Please close your previous ResultSet.", true);
+				//passed = false;
+			} else {
+				this.writeError("Error at SQL Query: " + e.getMessage(), false);
+			}
+		}
+		//}
+	}*/
+	
+	/*
+	 * <b>retry</b><br>
+	 * <br>
 	 * Retries a statement and returns a ResultSet.
 	 * <br>
 	 * <br>
@@ -222,20 +235,25 @@ public class SQLite extends Database {
 	 * @return The SQL query result.
 	 */
 	public ResultSet retry(String query) {
+		//boolean passed = false;
 		Statement statement = null;
 		ResultSet result = null;
 		
-		try {
-			statement = connection.createStatement();
-			result = statement.executeQuery(query);
-			return result;
-		} catch (SQLException ex) {
-			if (ex.getMessage().toLowerCase().contains("locking") || ex.getMessage().toLowerCase().contains("locked")) {
-				this.writeError("Please close your previous ResultSet to run the query: \n\t" + query, false);
-			} else {
-				this.writeError("SQL exception in retry(): " + ex.getMessage(), false);
+		//while (!passed) {
+			try {
+				statement = connection.createStatement();
+				result = statement.executeQuery(query);
+				//passed = true;
+				return result;
+			} catch (SQLException ex) {
+				if (ex.getMessage().toLowerCase().contains("locking") || ex.getMessage().toLowerCase().contains("locked")) {
+					this.writeError("Please close your previous ResultSet to run the query: \n" + query, false);
+					//passed = false;
+				} else {
+					this.writeError("Error in SQL query: " + ex.getMessage(), false);
+				}
 			}
-		}
+		//}
 		
 		return null;
 	}

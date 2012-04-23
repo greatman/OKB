@@ -40,7 +40,8 @@ public class OKBInternalDB
         {
             deleteUser(playerName);
         }
-    	db.query("INSERT INTO players(player, user) VALUES('" + playerName + "', '" + websiteUser + "'");
+        OKLogger.info("ICI?");
+    	db.query("INSERT INTO players(player, user) VALUES('" + playerName + "', '" + websiteUser + "')");
     }
     
     public boolean existUser(String playerName)
@@ -49,6 +50,7 @@ public class OKBInternalDB
     	try
 		{
 	    	ResultSet rs = db.query("SELECT * FROM players WHERE player='" + playerName + "'");
+	    	
 	    	if (rs != null)
 	    	{
 	    		
@@ -59,6 +61,7 @@ public class OKBInternalDB
 							result = true;
 						}
 					}
+					OKLogger.info("wow ici");
 					rs.close();
 	    	}
 		}
@@ -71,7 +74,7 @@ public class OKBInternalDB
     
     public void deleteUser(String playerName)
     {
-    	db.query("DELETE FROM players WHERE player='" + playerName + "'");
+		db.query("DELETE FROM players WHERE player='" + playerName + "'");
     }
     
     public String getUser(String playerName)
@@ -82,12 +85,14 @@ public class OKBInternalDB
             try
             {
                 ResultSet rs = db.query("SELECT * FROM players WHERE player='" + playerName + "'");
+                OKLogger.info(rs.toString());
                 if (rs != null)
                 {
                     if (rs.next())
                     {
                         user = rs.getString("user");
                     }
+                    OKLogger.info("wow ici");
                     rs.close();
                 }
                 
@@ -103,7 +108,7 @@ public class OKBInternalDB
     
     public void banUser(String playerName, String reason)
     {
-    	db.query("INSERT INTO bans(player,reason) VALUES('" + playerName + "', '" + reason + "'");
+    	db.query("INSERT INTO bans(player,reason) VALUES('" + playerName + "', '" + reason + "')");
     }
     
     public boolean isBannedUser(String playerName)
@@ -121,6 +126,7 @@ public class OKBInternalDB
     					result = true;
     				}
     			}
+    			OKLogger.info("Icit");
     			rs.close();
     		}
     	}

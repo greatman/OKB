@@ -43,7 +43,7 @@ public class MySQL extends Database {
 			Class.forName("com.mysql.jdbc.Driver"); // Check that server's Java has MySQL support.
 			return true;
 	    } catch (ClassNotFoundException e) {
-	    	this.writeError("Class not found in initialize(): " + e.getMessage() + ".", true);
+	    	this.writeError("Class Not Found Exception: " + e.getMessage() + ".", true);
 	    	return false;
 	    }
 	}
@@ -54,12 +54,11 @@ public class MySQL extends Database {
 			String url = "";
 		    try {
 				url = "jdbc:mysql://" + this.hostname + ":" + this.portnmbr + "/" + this.database;
-				this.connection = DriverManager.getConnection(url, this.username, this.password);
 				//return DriverManager.getConnection(url, this.username, this.password);
-				return this.connection;
+				this.connection = DriverManager.getConnection(url, this.username, this.password);
 		    } catch (SQLException e) {
 		    	this.writeError(url,true);
-		    	this.writeError("SQL exception in open(): " + e.getMessage() + ".", true);
+		    	this.writeError("Could not be resolved because of an SQL Exception: " + e.getMessage() + ".", true);
 		    }
 		}
 		return null;
@@ -67,22 +66,25 @@ public class MySQL extends Database {
 	
 	@Override
 	public void close() {
+		//Connection connection = open();
 		try {
 			if (connection != null)
 				connection.close();
 		} catch (Exception e) {
-			this.writeError("Exception in close(): " + e.getMessage(), true);
+			this.writeError("Failed to close database connection: " + e.getMessage(), true);
 		}
 	}
 	
 	@Override
 	public Connection getConnection() {
+		//if (this.connection == null)
+		//return open();
 		return this.connection;
 	}
 	
-	// http://forums.bukkit.org/threads/lib-tut-mysql-sqlite-bukkit-drivers.33849/page-4#post-701550
 	@Override
-	public boolean checkConnection() {
+	public boolean checkConnection() { // http://forums.bukkit.org/threads/lib-tut-mysql-sqlite-bukkit-drivers.33849/page-4#post-701550
+		//Connection connection = this.open();
 		if (connection != null)
 			return true;
 		return false;
@@ -90,9 +92,12 @@ public class MySQL extends Database {
 	
 	@Override
 	public ResultSet query(String query) {
+		//Connection connection = null;
 		Statement statement = null;
-		ResultSet result = null;
+		ResultSet result = null/*new JdbcRowSetImpl()*/;
 		try {
+			//connection = open();
+			//if (checkConnection())
 		    statement = this.connection.createStatement();
 		    result = statement.executeQuery("SELECT CURTIME()");
 		    
@@ -100,43 +105,30 @@ public class MySQL extends Database {
 			    case SELECT:
 				    result = statement.executeQuery(query);
 				    break;
-				
-			    case INSERT:
-			    case UPDATE:
-			    case DELETE:	
-			    case CREATE:
-			    case ALTER:
-			    case DROP:
-			    case TRUNCATE:
-			    case RENAME:
-			    case DO:
-			    case REPLACE:
-			    case LOAD:
-			    case HANDLER:
-			    case CALL:
-			    	this.lastUpdate = statement.executeUpdate(query);
-			    	break;
-			    	
+			    
 			    default:
-			    	result = statement.executeQuery(query);
+			    	statement.executeUpdate(query);
 		    }
+		    //connection.close();
 	    	return result;
 		} catch (SQLException e) {
-			this.writeError("SQL exception in query(): " + e.getMessage(), false);
+			this.writeError("Error in SQL query: " + e.getMessage(), false);
 		}
 		return result;
 	}
 	
 	@Override
 	public PreparedStatement prepare(String query) {
+		//Connection connection = null;
 		PreparedStatement ps = null;
 		try
 		{
+			//connection = open();
 			ps = connection.prepareStatement(query);
 			return ps;
 		} catch(SQLException e) {
 			if(!e.toString().contains("not return ResultSet"))
-				this.writeError("SQL exception in prepare(): " + e.getMessage(), false);
+				this.writeError("Error in SQL prepare() query: " + e.getMessage(), false);
 		}
 		return ps;
 	}
@@ -145,8 +137,9 @@ public class MySQL extends Database {
 	public boolean createTable(String query) {
 		Statement statement = null;
 		try {
+			//this.connection = this.open();
 			if (query.equals("") || query == null) {
-				this.writeError("Parameter 'query' empty or null in createTable(): " + query, true);
+				this.writeError("SQL query empty: createTable(" + query + ")", true);
 				return false;
 			}
 		    
@@ -165,6 +158,8 @@ public class MySQL extends Database {
 	@Override
 	public boolean checkTable(String table) {
 		try {
+			//Connection connection = open();
+			//this.connection = this.open();
 		    Statement statement = connection.createStatement();
 		    
 		    ResultSet result = statement.executeQuery("SELECT * FROM " + table);
@@ -177,7 +172,7 @@ public class MySQL extends Database {
 			if (e.getMessage().contains("exist")) {
 				return false;
 			} else {
-				this.writeError("SQL exception in checkTable(): " + e.getMessage(), false);
+				this.writeError("Error in SQL query: " + e.getMessage(), false);
 			}
 		}
 		
@@ -188,13 +183,16 @@ public class MySQL extends Database {
 	
 	@Override
 	public boolean wipeTable(String table) {
+		//Connection connection = null;
 		Statement statement = null;
 		String query = null;
 		try {
 			if (!this.checkTable(table)) {
-				this.writeError("Table \"" + table + "\" in wipeTable() does not exist.", true);
+				this.writeError("Error wiping table: \"" + table + "\" does not exist.", true);
 				return false;
 			}
+			//connection = open();
+			//this.connection = this.open();
 		    statement = this.connection.createStatement();
 		    query = "DELETE FROM " + table + ";";
 		    statement.executeUpdate(query);

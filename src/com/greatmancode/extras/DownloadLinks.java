@@ -11,8 +11,6 @@ import java.net.URLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import com.greatmancode.okb3.OKLogger;
-
 public class DownloadLinks
 {
 	public static void download(File folder)
@@ -25,7 +23,6 @@ public class DownloadLinks
             url = new URL("https://github.com/greatman/OKB/raw/rewrite/forumlistener.zip");
             con = url.openConnection(); // open the url connection.
             dis = new DataInputStream(con.getInputStream()); // get a data stream from the url connection.
-            OKLogger.info(con.getContentLength() + "");
             fileData = new byte[con.getContentLength()]; // determine how many byes the file size is and make array big enough to hold the data
             for (int x = 0; x < fileData.length; x++) { // fill byte array with bytes from the data input stream
                 fileData[x] = dis.readByte();
@@ -42,7 +39,6 @@ public class DownloadLinks
             { 
                 //for each entry to be extracted
                 String entryName = zipentry.getName();
-                System.out.println("entryname "+entryName);
                 int n;
                 FileOutputStream fileoutputstream;
                 File newFile = new File(folder.getPath() + entryName);

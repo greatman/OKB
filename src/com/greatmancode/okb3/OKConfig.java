@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.bukkit.configuration.MemorySection;
 
 public class OKConfig
 {
@@ -31,6 +36,7 @@ public class OKConfig
     public static List<Integer> whitelist = null;
     
     public static HashMap<Integer, String> rankIdentifier = null;
+
     
     public OKConfig(OKB plugin)
     {
@@ -56,26 +62,38 @@ public class OKConfig
         //We get the types (World + default)
         groupList = new HashMap<String, HashMap<Integer, String>>();
         
-        List<String> typeList = plugin.getConfig().getStringList("group-mapping");
-        Iterator<String> iterator = typeList.iterator();
+        //We get the worlds and load it to be able to iterate.
+        Map<String,Object> typeList = plugin.getConfig().getConfigurationSection("group-mapping").getValues(false);
+        Set<Entry<String,Object>> entryset = typeList.entrySet();
+        Iterator<Entry<String, Object>> iterator = entryset.iterator();
         
+        //The group list (Made outside to not redeclare all the time
+        HashMap<Integer,String> groups = null;
+        
+        //Iterate through all worlds
         while (iterator.hasNext())
         {
-        	//We get the ranks
-            String type = iterator.next();
+        	//We get the Worlds
+            Entry<String, Object> type = iterator.next();
             
-            List<String> groupID = plugin.getConfig().getStringList("group-mapping." + type);
-            Iterator<String> groupIDIterator = groupID.iterator();
+            //We load the ranks to be able to iterate
+            Map<String, Object> groupID = ((MemorySection) type.getValue()).getValues(false);
+            Set<Entry<String,Object>> groupIDentryset = groupID.entrySet();
+            Iterator<Entry<String, Object>> iterator2 = groupIDentryset.iterator();
             
-            HashMap<Integer,String> groups = new HashMap<Integer,String>();
+            //We clear the hashmap of groups
+            groups =  new HashMap<Integer,String>();
             
-            while (groupIDIterator.hasNext())
+            //We iterate through the ranks
+            while(iterator2.hasNext())
             {
-            	int groupforumid = Integer.parseInt(groupIDIterator.next());
-            	groups.put(groupforumid, plugin.getConfig().getString("group-mapping." + type + "." + groupforumid));
+                //We put the groups into the hashmap
+                Entry<String, Object> groupidentry = iterator2.next();
+                groups.put(Integer.parseInt(groupidentry.getKey()), (String) groupidentry.getValue());
             }
             
-            groupList.put(type, groups);
+            //We put the world into the final hashmap
+            groupList.put(type.getKey(), groups);
         }
         
         //Whitelist manager
@@ -83,11 +101,14 @@ public class OKConfig
         whitelist = new ArrayList<Integer>();
         whitelistKickMsg = plugin.getConfig().getString("extras.whitelist.kick-message");
         
-        typeList = plugin.getConfig().getStringList("extras.whitelist.groups");
-        iterator = typeList.iterator();
-        while(iterator.hasNext())
+        
+        //We load the group list
+        List<Integer> typeListWhitelist = plugin.getConfig().getIntegerList("extras.whitelist.groups");
+        Iterator<Integer> iteratorwhitelist = typeListWhitelist.iterator();
+        while (iteratorwhitelist.hasNext())
         {
-        	whitelist.add(Integer.parseInt(iterator.next()));
+            //We get the groups
+            whitelist.add(iteratorwhitelist.next());
         }
         
         
@@ -108,13 +129,16 @@ public class OKConfig
         }
         
         //Rank identifier
-        typeList = plugin.getConfig().getStringList("extras.rank-changing.identifiers");
-        iterator = typeList.iterator();
-        while(iterator.hasNext())
+        //We load the group list
+        rankIdentifier = new HashMap<Integer,String>();
+        typeList = plugin.getConfig().getConfigurationSection("extras.rank-changing.identifiers").getValues(false);
+        entryset = typeList.entrySet();
+        iterator = entryset.iterator();
+        while (iterator.hasNext())
         {
-        	int id = Integer.parseInt(iterator.next());
-        	
-        	rankIdentifier.put(id, "extras.rank-chaning.identifiers." + id);
+            //We get the groups
+            Entry<String, Object> type = iterator.next();
+            rankIdentifier.put(Integer.parseInt(type.getKey()), (String) type.getValue());
         }
     }
 }
