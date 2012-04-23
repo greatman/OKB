@@ -24,8 +24,8 @@ extras:
   whitelist:
     kick-message: This is the message a user will see if their group isn't whitelisted.
     groups:
-      '1': 'true'
-      '2': 'false'
+    - 1
+    - 2
   nickname-syncing:
     nickname-field-in-usertable: nickname_field_user_table
   synced-banning:
