@@ -40,7 +40,6 @@ public class OKBInternalDB
         {
             deleteUser(playerName);
         }
-        OKLogger.info("ICI?");
     	db.query("INSERT INTO players(player, user) VALUES('" + playerName + "', '" + websiteUser + "')");
     }
     
@@ -61,7 +60,6 @@ public class OKBInternalDB
 							result = true;
 						}
 					}
-					OKLogger.info("wow ici");
 					rs.close();
 	    	}
 		}
@@ -92,7 +90,6 @@ public class OKBInternalDB
                     {
                         user = rs.getString("user");
                     }
-                    OKLogger.info("wow ici");
                     rs.close();
                 }
                 
@@ -126,7 +123,6 @@ public class OKBInternalDB
     					result = true;
     				}
     			}
-    			OKLogger.info("Icit");
     			rs.close();
     		}
     	}

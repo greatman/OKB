@@ -90,17 +90,13 @@ public class OKFunctions
             {
                 OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName), permGroupList[i]);
             }
-            OKLogger.info(worldName);
             HashMap<Integer, String> configurationGroup = OKConfig.groupList.get(worldName);
             while (groupIterator.hasNext())
             {
-            	OKLogger.info((configurationGroup == null) + "");
-            	OKLogger.info((groupIterator == null) + "");
                 String groupName = configurationGroup.get(groupIterator.next());
                 
                 if (groupName != null)
                 {
-                    OKLogger.info(groupName);
                     if (worldName == "default")
                     {
                         OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);

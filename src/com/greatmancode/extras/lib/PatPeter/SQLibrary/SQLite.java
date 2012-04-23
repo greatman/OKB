@@ -101,7 +101,6 @@ public class SQLite extends Database {
 	public ResultSet query(String query) {
 		Statement statement = null;
 		ResultSet result = null;
-		OKLogger.info(query);
 		try {
 			connection = this.open();
 			statement = connection.createStatement();
