@@ -15,5 +15,18 @@ public class OKBWebsiteDB
 		{
 			throw new SQLException("Impossible to connect to MySQL database.");
 		}
+		thePlugin.getServer().getScheduler().scheduleSyncRepeatingTask(thePlugin, new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    dbm.query("SELECT 1 FROM DUAL");
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }, 300, (30 * 20));
 	}
 }

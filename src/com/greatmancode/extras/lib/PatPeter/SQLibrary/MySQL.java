@@ -56,6 +56,7 @@ public class MySQL extends Database {
 				url = "jdbc:mysql://" + this.hostname + ":" + this.portnmbr + "/" + this.database;
 				//return DriverManager.getConnection(url, this.username, this.password);
 				this.connection = DriverManager.getConnection(url, this.username, this.password);
+				
 		    } catch (SQLException e) {
 		    	this.writeError(url,true);
 		    	this.writeError("Could not be resolved because of an SQL Exception: " + e.getMessage() + ".", true);
