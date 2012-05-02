@@ -24,7 +24,6 @@ public class XenForo implements OKBSync
     @Override
     public boolean accountExist(String username, String password)
     {
-        String encpass = "nope";
         boolean exist = false;
         try
         {
@@ -34,7 +33,10 @@ public class XenForo implements OKBSync
             {
                 do
                 {
-                    encpass = Tools.SHA256(Tools.SHA256(password) + Tools.regmatch("\"salt\";.:..:\"(.*)\";.:.:\"hashFunc\"", rs.getString("data")));
+                    if (Tools.SHA256(Tools.SHA256(password) + Tools.regmatch("\"salt\";.:..:\"(.*)\";.:.:\"hashFunc\"", rs.getString("data"))).equals(Tools.regmatch("\"hash\";.:..:\"(.*)\";.:.:\"salt\"", rs.getString("data"))))
+                    {
+                        exist = true;
+                    }
                 }
                 while (rs.next());
             }
@@ -47,10 +49,6 @@ public class XenForo implements OKBSync
         catch (NoSuchAlgorithmException e)
         {
             e.printStackTrace();
-        }
-        if (!encpass.equals("nope"))
-        {
-            exist = true;
         }
         return exist;
     }
