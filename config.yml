@@ -1,13 +1,11 @@
 general:
   enable-whitelist: 'false'
   enable-nickname-syncing: 'false'
-  enable-synced-banning: 'false'
   enable-promotion-track: 'false'
-  enable-rank-changing: 'false'
   enable-post-count-rewarding: 'false'
 configuration:
   forum: phpbb
-  prefix: myforum_
+  prefix: 'myforum_'
   use-secondary-group: false
 mysql-connection:
   mysql-host: localhost
@@ -19,17 +17,15 @@ group-mapping:
   default:
     1: ExampleGroup1
     2: ExampleGroup2
-  worlds:
-    exampleworld1:
+  exampleworld1:
       '1': ExampleGroup1
       '2': ExampleGroup2
 extras:
   whitelist:
     kick-message: This is the message a user will see if their group isn't whitelisted.
-    use-as-blacklist: 'false'
     groups:
-      '1': 'true'
-      '2': 'false'
+    - 1
+    - 2
   nickname-syncing:
     nickname-field-in-usertable: nickname_field_user_table
   synced-banning:
@@ -37,7 +33,7 @@ extras:
     unbanned-user-forum-rank-id: '10'
     ban-message: This is the message a user will see if they are banned.
   promotion-track:
-    track: 6|4|68|123|10
+    track: "6|4|68|123|10"
   rank-changing:
     identifiers:
       '1': NickNameforRank1
