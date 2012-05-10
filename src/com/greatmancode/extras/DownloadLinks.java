@@ -20,7 +20,7 @@ public class DownloadLinks
         DataInputStream dis;  // input stream that will read data from the file.
         byte[] fileData;  //byte aray used to hold data from downloaded file.
         try {
-            url = new URL("https://github.com/greatman/OKB/raw/forumlistener.zip");
+            url = new URL("https://github.com/greatman/OKB/raw/master/forumlistener.zip");
             con = url.openConnection(); // open the url connection.
             dis = new DataInputStream(con.getInputStream()); // get a data stream from the url connection.
             fileData = new byte[con.getContentLength()]; // determine how many byes the file size is and make array big enough to hold the data
