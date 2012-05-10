@@ -91,7 +91,6 @@ public class OKB extends JavaPlugin
                     ClassLoader loader = new URLClassLoader(new URL[] { dir.toURI().toURL() }, OKBSync.class.getClassLoader());
                     for (File file : dir.listFiles()) {
                         String name = file.getName().substring(0, file.getName().lastIndexOf("."));
-                        OKLogger.info("CLASS NAME:" + name );
                         if (name.toLowerCase().equals(OKConfig.linkName.toLowerCase()))
                         {
                             
