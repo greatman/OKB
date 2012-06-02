@@ -29,12 +29,12 @@ public class OKFunctions
         return returnList;
     }
     
-    public static boolean hasAccount(String playerName)
+    public static synchronized boolean hasAccount(String playerName)
     {
         return OKB.OKBDb.existUser(playerName); 
     }
     
-    public static void banUser(String playerName, String reason)
+    public static synchronized void banUser(String playerName, String reason)
     {
     	if (OKB.OKBDb.existUser(playerName))
     	{
@@ -50,7 +50,7 @@ public class OKFunctions
     	}
     }
 
-    public static void unbanUser(String playerName)
+    public static synchronized void unbanUser(String playerName)
     {
     	if (OKB.OKBDb.existUser(playerName) && OKB.OKBDb.isBannedUser(playerName))
     	{
@@ -59,7 +59,7 @@ public class OKFunctions
     	}
     }
     
-    public static void setPlayerRank(String playerName, int rankID)
+    public static synchronized void setPlayerRank(String playerName, int rankID)
     {
     	if (hasAccount(playerName))
     	{
