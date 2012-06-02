@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class OKRunnable implements Runnable
 {
@@ -59,6 +60,7 @@ public class OKRunnable implements Runnable
                 //Is the player login stealth enabled?
                 if (!thePlayer.hasPermission("bbb.hide"))
                 {
+                    OKB.p.getServer().broadcastMessage(ChatColor.YELLOW + thePlayer.getDisplayName() + ChatColor.YELLOW + " joined the game!");
                     joinevent.setJoinMessage(ChatColor.YELLOW + thePlayer.getDisplayName() + " joined the game!");
                 }
                 
@@ -69,6 +71,17 @@ public class OKRunnable implements Runnable
             {
                 thePlayer.kickPlayer(OKConfig.bannedMsg + " : " + OKB.OKBDb.getBanReason(thePlayer.getName()));
             }
+        }
+        else if (this.event instanceof PlayerTeleportEvent)
+        {
+            try {
+		Thread.sleep(2000);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+            Player thePlayer = ((PlayerTeleportEvent)this.event).getPlayer();
+            OKFunctions.syncPlayer(thePlayer.getName(), thePlayer.getWorld().getName());
         }
     }
 }

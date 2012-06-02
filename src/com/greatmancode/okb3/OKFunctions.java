@@ -72,7 +72,7 @@ public class OKFunctions
      * @param worldName The world to sync to
      * @return True if the user synced, false if the user doesn't have a account.
      */
-    public static boolean syncPlayer(String playerName, String worldName)
+    public static synchronized boolean syncPlayer(String playerName, String worldName)
     {
         if (!OKConfig.groupList.containsKey(worldName))
         {
