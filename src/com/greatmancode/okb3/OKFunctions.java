@@ -86,14 +86,7 @@ public class OKFunctions
             String[] permGroupList = OKB.perms.getPlayerGroups(OKB.p.getServer().getPlayer(playerName));
             for (int i = 0; i < permGroupList.length; i++)
             {
-                if (worldName.equals("default"))
-                {
-                    OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName).getWorld(), OKB.p.getServer().getPlayer(playerName).getName(), permGroupList[i]);
-                }
-                else
-                {
-                    OKB.perms.playerRemoveGroup(worldName, OKB.p.getServer().getPlayer(playerName).getName(), permGroupList[i]);
-                }
+        	modifyGroup(true, playerName, permGroupList[i], worldName);
             }
             HashMap<Integer, String> configurationGroup = OKConfig.groupList.get(worldName);
             
@@ -103,18 +96,37 @@ public class OKFunctions
                 
                 if (groupName != null)
                 {
-                    if (worldName.equals("default"))
-                    {
-                        OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);
-                    }
-                    else
-                    {
-                        OKB.perms.playerAddGroup(worldName, playerName, groupName);
-                    }
+                    modifyGroup(false, playerName, groupName, worldName);
                 }
             }
             return true;
         }
         return false;
+    }
+    
+    public static synchronized void modifyGroup(boolean remove, String playerName, String groupName, String worldName)
+    {
+	if (remove)
+	{
+	    if (worldName.equals("default"))
+	    {
+	        OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName).getWorld(), OKB.p.getServer().getPlayer(playerName).getName(), groupName);
+	    }
+	    else
+	    {
+	        OKB.perms.playerRemoveGroup(worldName, OKB.p.getServer().getPlayer(playerName).getName(), groupName);
+	    }
+	}
+	else
+	{
+	    if (worldName.equals("default"))
+	    {
+		OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);
+	    }
+	    else
+	    {
+		OKB.perms.playerAddGroup(worldName, playerName, groupName);
+	    }
+	}
     }
 }

@@ -10,6 +10,7 @@ public class SyncCommand extends BaseCommand
 	public SyncCommand()
 	{
 		this.command.add("sync");
+		this.permFlag = "bbb.sync";
 		this.helpDescription = "Sync your account with the forum";
 		this.requiredParameters.add("Website Username");
 		this.requiredParameters.add("Website Password");

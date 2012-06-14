@@ -5,8 +5,7 @@ author:
 main: com.greatmancode.okb3.OKB
 version: 3.7.1
 database: false
-description: >
-             A forum bridge plugin for Bukkit.
+description: A forum bridge plugin for Bukkit.
 commands:
   bbb:
     description: Bulletin Board Bridge help menu.
@@ -20,6 +19,7 @@ commands:
     description: Bulletin Board Bridge sync command.
     usage: |
            Usage: /<command>
+    permission: bbb.sync
   resync:
     description: Bulletin Board Bridge resync command.
     usage: |
@@ -52,3 +52,36 @@ commands:
     description: Bulletin Board Bridge forum rank changing command.
     usage: |
            Usage: /<command>
+permissions:
+  bbb.*:
+    description: Gives access to all commands
+    children:
+      bbb.sync: true
+      bbb.demote: true
+      bbb.promote: true
+      bbb.forceall: true
+      bbb.force: true
+      bbb.unban: true
+      bbb.ban: true
+  bbb.sync:
+    description: Allow the usage of the /sync command
+    default: true
+  bbb.demote:
+    description: Allow the usage of the /fdemote command
+    default: op
+  bbb.promote:
+    description: Allow the usage of the /fpromote command
+    default: op
+  bbb.forceall:
+    description: Allow the usage of the /fsyncall command
+    default: op
+  bbb.force:
+    description: Allow the usage of the /fsync command
+    default: op
+  bbb.unban:
+    description: Allow the usage of the /funban command
+    default: op
+  bbb.ban:
+    description: Allow the usage of the /fban command
+    default: op
+    
