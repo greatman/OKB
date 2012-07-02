@@ -106,27 +106,31 @@ public class OKFunctions
     
     public static synchronized void modifyGroup(boolean remove, String playerName, String groupName, String worldName)
     {
-	if (remove)
-	{
-	    if (worldName.equals("default"))
-	    {
-	        OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName).getWorld(), OKB.p.getServer().getPlayer(playerName).getName(), groupName);
-	    }
-	    else
-	    {
-	        OKB.perms.playerRemoveGroup(worldName, OKB.p.getServer().getPlayer(playerName).getName(), groupName);
-	    }
-	}
-	else
-	{
-	    if (worldName.equals("default"))
-	    {
-		OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);
-	    }
-	    else
-	    {
-		OKB.perms.playerAddGroup(worldName, playerName, groupName);
-	    }
-	}
+    	if (groupName != null)
+    	{
+    		if (remove)
+    		{
+    				if (worldName.equals("default"))
+    			    {
+    			        OKB.perms.playerRemoveGroup(OKB.p.getServer().getPlayer(playerName).getWorld(), OKB.p.getServer().getPlayer(playerName).getName(), groupName);
+    			    }
+    			    else
+    			    {
+    			        OKB.perms.playerRemoveGroup(worldName, OKB.p.getServer().getPlayer(playerName).getName(), groupName);
+    			    }
+    		    
+    		}
+    		else
+    		{
+    		    if (worldName.equals("default"))
+    		    {
+    		    	OKB.perms.playerAddGroup(OKB.p.getServer().getPlayer(playerName), groupName);
+    		    }
+    		    else
+    		    {
+    		    	OKB.perms.playerAddGroup(worldName, playerName, groupName);
+    		    }
+    		}
+    	}
     }
 }
