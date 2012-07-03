@@ -26,7 +26,7 @@ public class myBB implements OKBSync {
                                     + "users WHERE username = '" + username + "'").executeQuery();
             if (rs.next()) {
                 do {
-                    encpass = Tools.md5(Tools.md5(rs.getString("salt")) + password);
+                    encpass = Tools.md5(Tools.md5(rs.getString("salt")) + (Tools.md5(password)));
                     if (encpass.equals(rs.getString("password"))) {
                         exist = true;
                     }
