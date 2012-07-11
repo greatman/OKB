@@ -77,16 +77,21 @@ public class vBulletin implements OKBSync {
                 while(rs.next());
             }
             rs.close();
-            rs = OKBWebsiteDB.dbm.prepare("SELECT membergroupids FROM " + OKConfig.tablePrefix + "user WHERE username = '" + username + "'").executeQuery();
-            if (rs.next())
+            if (OKConfig.useSecondaryGroups)
             {
-                do
+            	rs = OKBWebsiteDB.dbm.prepare("SELECT membergroupids FROM " + OKConfig.tablePrefix + "user WHERE username = '" + username + "'").executeQuery();
+                if (rs.next())
                 {
-                    group.add(rs.getInt("membergroupids"));
+                    do
+                    {
+                        group.add(rs.getInt("membergroupids"));
+                    }
+                    while(rs.next());
                 }
-                while(rs.next());
+                rs.close();
             }
-            rs.close();
+            
+            
         }
         catch (SQLException e)
         {
