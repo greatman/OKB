@@ -52,6 +52,7 @@ public class OKRunnable implements Runnable
                     else
                     {
                         //We give a grace period of 30 secs to sync
+                    	OKB.p.getLogger().info("Let's wait 30 seconds");
                         OKB.p.getServer().getScheduler().scheduleAsyncDelayedTask(OKB.p, new OKBWhitelistWait(thePlayer), 600L);
                     }
                 }

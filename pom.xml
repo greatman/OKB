@@ -1,80 +1,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.greatmancode</groupId>
+	<groupId>com.greatman</groupId>
 	<artifactId>OKB3</artifactId>
 	<version>3.7.1-SNAPSHOT</version>
+
+	<name>OKB3</name>
+	<url>https://github.com/greatman/OKB</url>
+	<description>Ingame/Forum link plugin</description>
+
+	<!-- Source code -->
+	<scm>
+		<developerConnection>scm:git:git@github.com:greatman/okb.git</developerConnection>
+		<connection>scm:git:git://github.com/greatman/okb.git</connection>
+		<url>https://github.com/greatman/okb</url>
+	</scm>
+
+	<!-- Continuous integration -->
+	<ciManagement>
+		<system>jenkins</system>
+		<url>http://jenkins.thebigdigmc.info/job/OKB3%20Renewed/</url>
+	</ciManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spoutVersion>dev-SNAPSHOT</spoutVersion>
+		<bukkitVersion>1.2.5-R4.0</bukkitVersion>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
 	</repositories>
-	<distributionManagement>
-    <repository>
-        <id>deploymentRepo</id>
-        <url>http://repo.greatmancode.com/artifactory/plugins-release-local</url>
-    </repository>
-    <snapshotRepository>
-        <id>deploymentRepo</id>
-        <url>http://repo.greatmancode.com/artifactory/plugins-release-local</url>
-    </snapshotRepository>
-</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.2.5-R4.0</version>
+			<version>${bukkitVersion}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-                <groupId>net.milkbowl.vault</groupId>
-                <artifactId>Vault</artifactId>
-                <version>1.2.15</version>
-                <scope>system</scope>
-                <systemPath>${project.basedir}/lib/Vault.jar</systemPath>
-            </dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>Vault</artifactId>
+			<version>1.2.15</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Vault.jar</systemPath>
+		</dependency>
 	</dependencies>
+
 	<build>
+		<defaultGoal>clean install</defaultGoal>
 		<resources>
 			<resource>
-				<directory>${project.basedir}</directory>
+				<targetPath>.</targetPath>
 				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
 				<includes>
-					<include>plugin.yml</include>
-					<include>config.yml</include>
+					<include>*.yml</include>
 				</includes>
 			</resource>
 		</resources>
 		<plugins>
+			<!-- Compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
+				<version>2.4</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<compilerArguments>
+						<O>-Xlint:all</O>
+						<O>-Xlint:-path</O>
+					</compilerArguments>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.basedir}/src</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

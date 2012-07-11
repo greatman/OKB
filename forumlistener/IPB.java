@@ -85,16 +85,25 @@ public class IPB implements OKBSync
 		List<Integer> group = new ArrayList<Integer>();
 		try
 		{
-			ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT member_group_id FROM " + OKConfig.tablePrefix + "members WHERE members_l_username = '" + username + "'").executeQuery();
+			ResultSet rs = OKBWebsiteDB.dbm.prepare("SELECT member_group_id, mgroup_others FROM " + OKConfig.tablePrefix + "members WHERE members_l_username = '" + username + "'").executeQuery();
 			if (rs.next())
 			{
 				do
 				{
 					group.add(rs.getInt("member_group_id"));
+					String[] list = rs.getString("mgroup_others").split(",");
+					for (int i = 0; i < list.length; i++)
+					{
+						if (!list[i].equals(""))
+						{
+							group.add(Integer.parseInt(list[i]));
+						}
+					}
 				}
 				while(rs.next());
 			}
 			rs.close();
+			
 		}
 		catch (SQLException e)
         {

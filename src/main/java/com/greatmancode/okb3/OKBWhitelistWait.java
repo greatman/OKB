@@ -12,6 +12,7 @@ public class OKBWhitelistWait implements Runnable
     @Override
     public void run()
     {
+    	OKB.p.getLogger().info("We waited 30s!");
         // TODO Auto-generated method stub
         if (!OKFunctions.hasAccount(player.getName()))
         {
