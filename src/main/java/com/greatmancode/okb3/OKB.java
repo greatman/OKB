@@ -33,7 +33,7 @@ public class OKB extends JavaPlugin
     public List<BaseCommand> commands = new ArrayList<BaseCommand>();
     public static OKB p;
     public static Permission perms;
-    
+    public static HashMap<String, String> worldUpdate = new HashMap<String,String>();
     //hashmap for player sync. Key is player name and entry is the account name.
     public static HashMap<String, String> playerList = new HashMap<String, String>();
     

@@ -1,5 +1,6 @@
 package com.greatmancode.okb3;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class OKRunnable implements Runnable
 {
     public static OKB plugin;
     Event event;
-
+    
     public OKRunnable(OKB instance, Event event)
     {
         plugin = instance;
@@ -64,7 +65,7 @@ public class OKRunnable implements Runnable
                     OKB.p.getServer().broadcastMessage(ChatColor.YELLOW + thePlayer.getDisplayName() + ChatColor.YELLOW + " joined the game!");
                     joinevent.setJoinMessage(ChatColor.YELLOW + thePlayer.getDisplayName() + " joined the game!");
                 }
-                
+                OKB.worldUpdate.put(thePlayer.getName(), thePlayer.getWorld().getName());
                 //Everything done, we sync the player!
                 OKFunctions.syncPlayer(thePlayer.getName(), thePlayer.getWorld().getName());
             }
@@ -75,14 +76,26 @@ public class OKRunnable implements Runnable
         }
         else if (this.event instanceof PlayerTeleportEvent)
         {
-            try {
-		Thread.sleep(2000);
-	    } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
             Player thePlayer = ((PlayerTeleportEvent)this.event).getPlayer();
-            OKFunctions.syncPlayer(thePlayer.getName(), thePlayer.getWorld().getName());
+            boolean update = false;
+            if (OKB.worldUpdate.containsKey(thePlayer.getName()))
+            {
+            	if (!OKB.worldUpdate.get(thePlayer.getName()).equals(thePlayer.getWorld().getName())) {
+            		update = true;
+            	}
+            } else {
+            	update = true;
+            }
+            
+            if (update) {
+            	OKB.worldUpdate.put(thePlayer.getName(), thePlayer.getWorld().getName());
+        		OKFunctions.syncPlayer(thePlayer.getName(), thePlayer.getWorld().getName());
+            }
         }
     }
 }
