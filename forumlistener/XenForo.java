@@ -11,15 +11,8 @@ import com.greatmancode.okb3.OKConfig;
 
 public class XenForo implements OKBSync
 {
-
-	String fieldName = "user_group_id";
-	
 	public XenForo()
 	{
-		if (OKConfig.useSecondaryGroups)
-		{
-			fieldName = "secondary_group_ids";
-		}
 	}
     @Override
     public boolean accountExist(String username, String password)
@@ -82,14 +75,15 @@ public class XenForo implements OKBSync
     @Override
     public List<Integer> getGroup(String username)
     {
+    	//first one
         List<Integer> group = new ArrayList<Integer>(); 
-        String query1 = "SELECT " + fieldName + ",data FROM " + OKConfig.tablePrefix + "xf_user," + OKConfig.tablePrefix + "xf_user_authenticate WHERE " + OKConfig.tablePrefix + "xf_user.username = '" + username + "'  AND " + OKConfig.tablePrefix + "xf_user.user_id = " + OKConfig.tablePrefix + "xf_user_authenticate.user_id";
+        String query1 = "SELECT user_group_id,data FROM " + OKConfig.tablePrefix + "xf_user," + OKConfig.tablePrefix + "xf_user_authenticate WHERE " + OKConfig.tablePrefix + "xf_user.username = '" + username + "'  AND " + OKConfig.tablePrefix + "xf_user.user_id = " + OKConfig.tablePrefix + "xf_user_authenticate.user_id";
         try
         {
             ResultSet rs = OKBWebsiteDB.dbm.prepare(query1).executeQuery();
             if (rs.next())
             {
-                group.add(rs.getInt(fieldName));
+                group.add(rs.getInt("user_group_id"));
             }
             rs.close();
         }
@@ -98,6 +92,29 @@ public class XenForo implements OKBSync
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        if (OKConfig.useSecondaryGroups)
+		{
+        	//second one
+            String query2 = "SELECT secondary_group_ids,data FROM " + OKConfig.tablePrefix + "xf_user," + OKConfig.tablePrefix + "xf_user_authenticate WHERE " + OKConfig.tablePrefix + "xf_user.username = '" + username + "'  AND " + OKConfig.tablePrefix + "xf_user.user_id = " + OKConfig.tablePrefix + "xf_user_authenticate.user_id";
+            try
+            {
+                ResultSet rs2 = OKBWebsiteDB.dbm.prepare(query2).executeQuery();
+                String secondarygroups = rs2.getString("secondary_group_ids");
+                String[] splitgroups = secondarygroups.split(",");
+                for (int i = 0; i < splitgroups.length; i++)
+                {
+                    group.add(Integer.parseInt(splitgroups[i]));
+                }
+                rs2.close();
+            }
+            catch (SQLException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+		}
+        
         
         return group;
     }
