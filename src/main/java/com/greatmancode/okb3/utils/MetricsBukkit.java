@@ -393,7 +393,7 @@ public class MetricsBukkit {
         }
 
         // Create the url
-        URL url = new URL(BASE_URL + String.format(REPORT_URL, encode("Craftconomy")));
+        URL url = new URL(BASE_URL + String.format(REPORT_URL, encode("OKB3")));
 
         // Connect to the website
         URLConnection connection;
