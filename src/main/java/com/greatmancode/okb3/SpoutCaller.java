@@ -1,21 +1,3 @@
-/*
- * This file is part of OKB3.
- *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
- *
- * OKB3 is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * OKB3 is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with OKB3.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.greatmancode.okb3;
 
 import java.io.File;
@@ -29,8 +11,7 @@ import org.spout.api.entity.Player;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.Server;
 
-import com.greatmancode.okb3.utils.MetricsSpout;
-import com.greatmancode.okb3.utils.MetricsSpout.Graph;
+import com.greatmancode.okb3.commands.CommandManager;
 
 /**
  * Server caller for Spout
@@ -69,7 +50,7 @@ public class SpoutCaller implements Caller {
 	public void sendMessage(String playerName, String message) {
 		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
 		if (p != null) {
-			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
+			p.sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
 		} else {
 			Common.getInstance().getLogger().log(Level.INFO, CHAT_PREFIX + message);
 		}
@@ -111,10 +92,10 @@ public class SpoutCaller implements Caller {
 		return loader.getDataFolder();
 	}
 
-	@Override
-	public void addDbGraph(String dbType) {
-		Graph graph = loader.getMetrics().createGraph("Database Engine");
-		graph.addPlotter(new MetricsSpout.Plotter(dbType) {
+	public void addMetricsGraph(String title, String value)
+	{
+		Graph graph = loader.getMetrics().createGraph(title);
+		graph.addPlotter(new MetricsSpout.Plotter(value) {
 
 			@Override
 			public int getValue() {
@@ -122,22 +103,17 @@ public class SpoutCaller implements Caller {
 			}
 		});
 	}
-
-	@Override
-	public void addMultiworldGraph(boolean enabled) {
-		Graph graph = loader.getMetrics().createGraph("Multiworld");
+	
+	public void addMetricsGraph(String title, boolean value)
+	{
 		String stringEnabled = "No";
-		if (enabled) {
+		if (value) {
 			stringEnabled = "Yes";
 		}
-		graph.addPlotter(new MetricsSpout.Plotter(stringEnabled) {
-
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
+		addMetricsGraph(title, stringEnabled);
 	}
+
+
 
 	@Override
 	public void startMetrics() {
@@ -152,9 +128,17 @@ public class SpoutCaller implements Caller {
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		if (!async)
-			return loader.getEngine().getScheduler().scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader
+					.getEngine()
+					.getScheduler()
+					.scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
+							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		else
-			return loader.getEngine().getScheduler().scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader
+					.getEngine()
+					.getScheduler()
+					.scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
+							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 	}
 
 	@Override
@@ -183,5 +167,13 @@ public class SpoutCaller implements Caller {
 			return loader.getEngine().getScheduler().scheduleSyncDelayedTask(loader, entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		else
 			return loader.getEngine().getScheduler().scheduleAsyncDelayedTask(loader, entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
+	}
+
+	@Override
+	public void addCommand(String name, String help, CommandManager manager) {
+		if (manager instanceof SpoutCommandManager) {
+			loader.getEngine().getRootCommand().addSubCommand(loader, name).setHelp(help).setExecutor((SpoutCommandManager) manager);
+		}
+
 	}
 }

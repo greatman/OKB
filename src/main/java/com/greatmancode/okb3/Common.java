@@ -39,7 +39,7 @@ public class Common {
 			caller = new SpoutCaller(loader);
 		}
 		getServerCaller().startMetrics();
-		commandManager = new CommandManager();
+		commandManager = new CommandHandler();
 	}
 
 	public void initialize() {

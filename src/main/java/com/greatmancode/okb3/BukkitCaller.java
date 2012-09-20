@@ -1,21 +1,3 @@
-/*
- * This file is part of OKB3.
- *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
- *
- * OKB3 is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * OKB3 is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with OKB3.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.greatmancode.okb3;
 
 import java.io.File;
@@ -24,25 +6,26 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import com.greatmancode.okb3.commands.BukkitCommandManager;
+import com.greatmancode.okb3.commands.CommandManager;
 import com.greatmancode.okb3.utils.MetricsBukkit;
 import com.greatmancode.okb3.utils.MetricsBukkit.Graph;
 
 /**
  * Server caller for Craftbukkit
- * 
  * @author greatman
  * 
  */
 public class BukkitCaller implements Caller {
 
 	private BukkitLoader loader;
-
+	
 	public BukkitCaller(Loader loader) {
 		this.loader = (BukkitLoader) loader;
 	}
-
 	@Override
 	public void disablePlugin() {
 		loader.getPluginLoader().disablePlugin(loader);
@@ -58,7 +41,7 @@ public class BukkitCaller implements Caller {
 			} else {
 				result = p.hasPermission(perm);
 			}
-
+			
 		} else {
 			// It's the console
 			result = true;
@@ -127,10 +110,11 @@ public class BukkitCaller implements Caller {
 		return loader.getDataFolder();
 	}
 
-	@Override
-	public void addDbGraph(String dbType) {
-		Graph graph = loader.getMetrics().createGraph("Database Engine");
-		graph.addPlotter(new MetricsBukkit.Plotter(dbType) {
+	@Override 
+	public void addMetricsGraph(String title, String value)
+	{
+		Graph graph = loader.getMetrics().createGraph(title);
+		graph.addPlotter(new MetricsBukkit.Plotter(value) {
 
 			@Override
 			public int getValue() {
@@ -138,21 +122,14 @@ public class BukkitCaller implements Caller {
 			}
 		});
 	}
-
-	@Override
-	public void addMultiworldGraph(boolean enabled) {
-		Graph graph = loader.getMetrics().createGraph("Multiworld");
+	
+	public void addMetricsGraph(String title, boolean value)
+	{
 		String stringEnabled = "No";
-		if (enabled) {
+		if (value) {
 			stringEnabled = "Yes";
 		}
-		graph.addPlotter(new MetricsBukkit.Plotter(stringEnabled) {
-
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
+		addMetricsGraph(title, stringEnabled);
 	}
 
 	@Override
@@ -167,7 +144,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
-		if (!async)
+		if(!async)
 			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
 		else
 			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
@@ -177,7 +154,7 @@ public class BukkitCaller implements Caller {
 	public List<String> getOnlinePlayers() {
 		List<String> list = new ArrayList<String>();
 		Player[] pList = loader.getServer().getOnlinePlayers();
-		for (Player p : pList) {
+		for (Player p: pList) {
 			list.add(p.getName());
 		}
 		return list;
@@ -195,10 +172,25 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int delay(Runnable entry, long start, boolean async) {
-		if (!async)
+		if(!async)
 			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * 20L);
 		else
 			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * 20L);
+	}
+	
+	public FileConfiguration getConfig() {
+		return loader.getConfig();
+	}
+	
+	public void saveConfig() {
+		loader.saveConfig();
+	}
+	
+	@Override
+	public void addCommand(String name, String help, CommandManager manager) {
+		if (manager instanceof BukkitCommandManager) {
+			loader.getCommand(name).setExecutor((BukkitCommandManager)manager);
+		}
 	}
 
 }
