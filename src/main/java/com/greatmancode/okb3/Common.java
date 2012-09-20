@@ -38,6 +38,7 @@ public class Common {
 		} else if (loader instanceof SpoutLoader) {
 			caller = new SpoutCaller(loader);
 		}
+		getServerCaller().startMetrics();
 		commandManager = new CommandManager();
 	}
 
