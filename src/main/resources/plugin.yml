@@ -52,6 +52,10 @@ commands:
     description: Bulletin Board Bridge forum rank changing command.
     usage: |
            Usage: /<command>
+  fusername:
+    description: Bulletin Board Bridge forum username lookup command.
+    usage: |
+            Usage: /<command>
 permissions:
   bbb.*:
     description: Gives access to all commands
@@ -63,6 +67,7 @@ permissions:
       bbb.force: true
       bbb.unban: true
       bbb.ban: true
+      bbb.fusername: true
   bbb.sync:
     description: Allow the usage of the /sync command
     default: true
@@ -83,5 +88,8 @@ permissions:
     default: op
   bbb.ban:
     description: Allow the usage of the /fban command
+    default: op
+  bbb.fusername:
+    description: Allow the usage of the /fusername command
     default: op
     

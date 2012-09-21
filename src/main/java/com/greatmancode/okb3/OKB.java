@@ -194,6 +194,7 @@ public class OKB extends JavaPlugin
         commands.add(new FPromoteCommand());
         commands.add(new FDemoteCommand());
         commands.add(new FRankCommand());
+        commands.add(new FUsernameCommand());
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
